@@ -5,7 +5,7 @@
 #
 
 from random import randrange as uniform
-from zlib import crc32 as crc32
+from zlib import crc32
 
 def is_even(n):
     return n % 2 == 0
@@ -130,9 +130,9 @@ def genkey(n_bits, safe=True):
 
 # We need to discriminate amongst the four roots
 # Rabin encryption is computing the square (mod n)
-h = crc32(b"Michael O. Rabin")
+_h = crc32(b"Michael O. Rabin")
 def encrypt(m, n):
-    return power_mod(m * 2**32 + h, 2, n) # Insert tag and square (mod n)
+    return power_mod(m * 2**32 + _h, 2, n) # Insert tag and square (mod n)
 
 # Decryption requires us to compute the four square roots (mod n). We can only efficiently
 # do this if we know p and q.
