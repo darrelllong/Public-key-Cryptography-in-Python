@@ -1,4 +1,4 @@
-# Public-key-Cryptography-in-Python
+# Public key Cryptography in Python
 Primality and public-key cryptography routines in Python
 
 Originally written for the students at the University of California, Santa Cruz.
