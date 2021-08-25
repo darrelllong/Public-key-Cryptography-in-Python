@@ -165,7 +165,7 @@ def group_generator(n, p):
     """
     g = n
     q = (p - 1) // 2
-    while powerMod(g, 2, p) == 1 and powerMod(g, q, p) == 1:
+    while power_mod(g, 2, p) == 1 and power_mod(g, q, p) == 1:
         g = g + 1
     return g
 
