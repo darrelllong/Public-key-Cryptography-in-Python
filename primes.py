@@ -80,9 +80,8 @@ def Jacobi(n, k):
 
 def is_prime_SS(n, k):
     for _ in range(0, k):
-        a = uniform(2, n - 1)
+        a = uniform(2, n - 1) # Euler witness (or liar)
         x = Jacobi(a, n)
-        p = power_mod(a, (n - 1) // 2, n)
         if x == 0 or power_mod(a, (n - 1) // 2, n) != x % n:
             return False
     return True
