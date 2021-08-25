@@ -51,7 +51,7 @@ def is_prime(n, k):
     if n < 4:
         return True
     for _ in range (0, k):
-        a = uniform(2, n)
+        a = uniform(2, n - 1) # Euler witness (or liar)
         if witness(a, n):
             return False
     return True
@@ -79,6 +79,10 @@ def Jacobi(n, k):
         return 0
 
 def is_prime_SS(n, k):
+    if n < 2 or (n != 2 and n % 2 == 0):
+        return False
+    if n < 4:
+        return True
     for _ in range(0, k):
         a = uniform(2, n - 1) # Euler witness (or liar)
         x = Jacobi(a, n)
