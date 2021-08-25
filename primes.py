@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 #
 # LICENSE GOES HERE.
 #
@@ -94,18 +96,6 @@ def is_prime_SS(n, k):
 
 is_prime = is_prime_SS
 
-if __name__ == '__main__':
-    g = 1
-    try:
-        while g != 0:
-            g = int(input("?? "))
-            if g == 2 or is_odd(g) and is_prime(g, 100):
-                print(f"{g} is probably prime.")
-            else:
-                print(f"{g} is composite.")
-    except:
-        print("\nSo long!")
-
 # Routines to generate primes
 
 def random_prime(low, high):
@@ -146,7 +136,7 @@ def rabin_prime(low, high, safe = True):
 
 # Euclidean extended greatest common divisor
 
-def extendedGCD(a, b):
+def extended_GCD(a, b):
     """
     Run the extended Euclid algorithm on a, b.
     Returns (remainder, (s, t))
@@ -161,15 +151,72 @@ def extendedGCD(a, b):
         (t, tP) = (tP, t - q * tP)
     return (r, (s, t))
 
+# A generator must not be congruent to 1 for any of its powers that are
+# proper divisors of p – 1.  Since p is safe prime, there are only two:
+# 2 and (p – 1) / 2. The number of such generators is 𝜑(p – 1).
 
-def gen_rabin_key(n_bits, safe=True):
+def group_generator(n, p):
     """
-    Generate and return a key with n_bits of strength.
-    Default is to use safe random numbers.
+    Creates a generator in the neighborhood of n for the group defined by p
+
+    A generator must not be congruent to 1 for any of its powers that are proper divisors
+    of p – 1.  Since p is safe prime, there are only two: 2 and (p – 1) / 2. The number of
+    such generators is 𝜑(p – 1).
     """
-    x = n_bits + 32 # Make room for the tag
-    p = rabin_prime (safe, 2**(x - 1), 2**x - 1)
-    q = rabin_prime (safe, 2**(x - 1), 2**x - 1)
-    while p == q:
-        q = rabin_prime (safe, 2**(x - 1), 2**x - 1)
-    return (p * q, (p, q))
+    g = n
+    q = (p - 1) // 2
+    while powerMod(g, 2, p) == 1 and powerMod(g, q, p) == 1:
+        g = g + 1
+    return g
+
+# Euclidean greatest common divisor
+
+def gcd(a, b):
+    """
+    Compute the greatest common divisor gcd(a, b)
+    """
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+# Least common multiple
+
+def lcm(a, b):
+    """
+    Compute the least common multiple lcm(a, b)
+    """
+    return abs(a * b) // gcd(a, b)
+
+# Multiplicative inverse of a (mod n), using Bézout's identity.
+
+def inverse(a, n):
+    """
+    Compute the muliplicative inverse of a (mod n) using the Euclidean algorithm and Bézout's
+    identity.
+    """
+    r, rP = n, a
+    t, tP = 0, 1
+    while rP != 0:
+        q = r // rP
+        r, rP = rP, r - q * rP
+        t, tP = tP, t - q * tP
+    if r > 1:
+        return "no inverse"
+    if t < 0:
+        return t + n
+    else:
+        return t
+
+# Interactive test
+
+if __name__ == '__main__':
+    g = 1
+    try:
+        while g != 0:
+            g = int(input("?? "))
+            if g == 2 or is_odd(g) and is_prime(g, 100):
+                print(f"{g} is probably prime.")
+            else:
+                print(f"{g} is composite.")
+    except:
+        print("\nSo long!")
