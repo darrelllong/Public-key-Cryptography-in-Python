@@ -105,3 +105,71 @@ if __name__ == '__main__':
                 print(f"{g} is composite.")
     except:
         print("\nSo long!")
+
+# Routines to generate primes
+
+def random_prime(low, high):
+    """
+    Generate and return a random prime in the range [low, high].
+    """
+    guess = 0 # Certainly not prime!
+    while not is_prime(guess, 100):
+        guess = uniform(low, high) # Half will be even, the rest have Pr[prime] ≈ 1/log(N).
+    return guess
+
+
+def safe_prime(low, high):
+    """
+    Generate and return a safe prime in the range [low, high].
+
+    A safe prime follows a Sophie German prime. If prime(p) and prime(2p + 1)
+    then p is a Sophie Germain prime and 2p + 1 is a safe prime.
+    """
+    p = random_prime(low, high)
+    while not is_prime(2 * p + 1,100):
+        p = random_prime(low, high)
+    return 2 * p + 1
+
+# Rabin prime
+
+def rabin_prime(low, high, safe = True):
+    """
+    Generate a Rabin prime in the range [low, high].
+    Default is to generate a safe prime.
+    Passing safe=False will generate a random prime instead.
+    """
+    f = safe_prime if safe else random_prime
+    p = f(low, high)
+    while p % 4 != 3:
+        p = f(low, high)
+    return p
+
+# Euclidean extended greatest common divisor
+
+def extendedGCD(a, b):
+    """
+    Run the extended Euclid algorithm on a, b.
+    Returns (remainder, (s, t))
+    """
+    (r, rP) = (a, b)
+    (s, sP) = (1, 0)
+    (t, tP) = (0, 1)
+    while rP != 0:
+        q = r // rP
+        (r, rP) = (rP, r - q * rP)
+        (s, sP) = (sP, s - q * sP)
+        (t, tP) = (tP, t - q * tP)
+    return (r, (s, t))
+
+
+def gen_rabin_key(n_bits, safe=True):
+    """
+    Generate and return a key with n_bits of strength.
+    Default is to use safe random numbers.
+    """
+    x = n_bits + 32 # Make room for the tag
+    p = rabin_prime (safe, 2**(x - 1), 2**x - 1)
+    q = rabin_prime (safe, 2**(x - 1), 2**x - 1)
+    while p == q:
+        q = rabin_prime (safe, 2**(x - 1), 2**x - 1)
+    return (p * q, (p, q))
