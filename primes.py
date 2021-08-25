@@ -45,7 +45,7 @@ def witness(a, n):
 
 # Miller-Rabin probabilistic primality test
 
-def is_prime(n, k):
+def is_prime_MR(n, k):
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
     if n < 4:
@@ -90,12 +90,16 @@ def is_prime_SS(n, k):
             return False
     return True
 
+# Default
+
+is_prime = is_prime_SS
+
 if __name__ == '__main__':
     g = 1
     try:
         while g != 0:
             g = int(input("?? "))
-            if is_odd(g) and is_prime_SS(g, 100):
+            if g == 2 or is_odd(g) and is_prime(g, 100):
                 print(f"{g} is probably prime.")
             else:
                 print(f"{g} is composite.")
