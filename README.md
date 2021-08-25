@@ -49,10 +49,11 @@ a little slow, but you do not need to do this more than once.
     year         = {2001},
     note         = {\url{https://ia.cr/2001/007}},
 }
-
+```
 
 # Primality Testing
 
+```
 @article{solovay1977fast,
   title={A fast Monte-Carlo test for primality},
   author={Solovay, Robert and Strassen, Volker},
