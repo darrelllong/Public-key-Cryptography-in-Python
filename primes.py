@@ -143,7 +143,7 @@ def safe_prime(low, high):
 
 # Rabin prime
 
-def rabin_prime(low, high, safe = True):
+def rabin_prime(low, high, safe=True):
     """
     Generate a Rabin prime in the range [low, high].
     Default is to generate a safe prime.
