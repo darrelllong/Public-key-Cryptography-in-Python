@@ -27,9 +27,9 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-def is_even(n): return n % 2 == 0
+def is_even(n): return n & 0x1 == 0
 
-def is_odd(n): return n % 2 == 1
+def is_odd(n):  return n & 0x1 == 1
 
 # a^b (mod n) using the method of repeated squares
 #
@@ -133,7 +133,7 @@ def random_prime(low, high):
     Generate and return a random prime in the range [low, high].
     """
     guess = 0 # Certainly not prime!
-    while not is_prime(guess, 100):
+    while is_even(guess) or not is_prime(guess, 100):
         guess = uniform(low, high) # Half will be even, the rest have Pr[prime] ≈ 1/log(N).
     return guess
 
