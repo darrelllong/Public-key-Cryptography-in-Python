@@ -154,7 +154,7 @@ def safe_prime(low, high, confidence=100):
 
 def rabin_prime(low, high, safe=True):
     """
-    Generate a Rabin prime in the range [low, high].
+    Generate a Rabin prime p ≢ 3 (mod 4), low ⩽ p ⩽ high.
     Default is to generate a safe prime.
     Passing safe=False will generate a random prime instead.
     """
