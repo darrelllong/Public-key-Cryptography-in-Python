@@ -68,7 +68,7 @@ from random import randrange as uniform
 
 # Miller-Rabin probabilistic primality test
 
-def is_prime_MR(n, k):
+def is_prime_MR(n, k=100):
     """
     Miller-Rabin probabilistic primality test of n with confidence k
     """
@@ -107,7 +107,7 @@ def Jacobi(n, k):
     else:
         return 0
 
-def is_prime_SS(n, k):
+def is_prime_SS(n, k=100):
     """
     Solovay-Strassen probabilistic primality test of n with confidence k
     """
@@ -128,17 +128,17 @@ is_prime = is_prime_MR
 
 # Routines to generate primes
 
-def random_prime(low, high):
+def random_prime(low, high, confidence=100):
     """
     Generate and return a random prime in the range [low, high].
     """
     guess = 0 # Certainly not prime!
-    while is_even(guess) or not is_prime(guess, 100):
+    while is_even(guess) or not is_prime(guess, confidence):
         guess = uniform(low, high) # Half will be even, the rest have Pr[prime] ≈ 1/log(N).
     return guess
 
 
-def safe_prime(low, high):
+def safe_prime(low, high, confidence=100):
     """
     Generate and return a safe prime in the range [low, high].
 
@@ -146,7 +146,7 @@ def safe_prime(low, high):
     then p is a Sophie Germain prime and 2p + 1 is a safe prime.
     """
     p = random_prime(low, high)
-    while not is_prime(2 * p + 1,100):
+    while not is_prime(2 * p + 1, confidence):
         p = random_prime(low, high)
     return 2 * p + 1
 
@@ -244,7 +244,7 @@ if __name__ == '__main__':
     try:
         while g != 0:
             g = int(input("?? "))
-            if g == 2 or is_odd(g) and is_prime(g, 100):
+            if g == 2 or is_odd(g) and is_prime(g):
                 print(f"{g} is probably prime.")
             else:
                 print(f"{g} is composite.")
