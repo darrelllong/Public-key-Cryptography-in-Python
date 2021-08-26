@@ -83,9 +83,10 @@ def is_prime_MR(n, k=100):
     return True
 
 # Compute the Jacobi symbol:
-#  n
-# (-)
-#  k
+#
+#  n    ⎡  0 n ≡ 0 (mod k)
+# (-) = ⎢  1 n ≢ 0 (mod k) ⋀ (∃x) a ≡ x**2 (mod k)
+#  k    ⎣ -1 n ≢ 0 (mod k) ⋀ (∄x)
 
 def Jacobi(n, k):
     """
