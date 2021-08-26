@@ -69,6 +69,9 @@ from random import randrange as uniform
 # Miller-Rabin probabilistic primality test
 
 def is_prime_MR(n, k):
+    """
+    Miller-Rabin probabilistic primality test of n with confidence k
+    """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
     if n < 4:
@@ -85,6 +88,9 @@ def is_prime_MR(n, k):
 #  k
 
 def Jacobi(n, k):
+    """
+    Compute the Jacobi symbol
+    """
     assert(k > 0 and is_odd(k))
     n = n % k
     t = 1
@@ -102,6 +108,9 @@ def Jacobi(n, k):
         return 0
 
 def is_prime_SS(n, k):
+    """
+    Solovay-Strassen probabilistic primality test of n with confidence k
+    """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
     if n < 4:
@@ -115,7 +124,7 @@ def is_prime_SS(n, k):
 
 # Default
 
-is_prime = is_prime_SS
+is_prime = is_prime_MR
 
 # Routines to generate primes
 
@@ -172,24 +181,6 @@ def extended_GCD(a, b):
         (t, tP) = (tP, t - q * tP)
     return (r, (s, t))
 
-# A generator must not be congruent to 1 for any of its powers that are
-# proper divisors of p – 1.  Since p is safe prime, there are only two:
-# 2 and (p – 1) / 2. The number of such generators is 𝜑(p – 1).
-
-def group_generator(n, p):
-    """
-    Creates a generator in the neighborhood of n for the group defined by p
-
-    A generator must not be congruent to 1 for any of its powers that are proper divisors
-    of p – 1.  Since p is safe prime, there are only two: 2 and (p – 1) / 2. The number of
-    such generators is 𝜑(p – 1).
-    """
-    g = n
-    q = (p - 1) // 2
-    while power_mod(g, 2, p) == 1 and power_mod(g, q, p) == 1:
-        g = g + 1
-    return g
-
 # Euclidean greatest common divisor
 
 def gcd(a, b):
@@ -227,6 +218,24 @@ def inverse(a, n):
         return t + n
     else:
         return t
+
+# A generator must not be congruent to 1 for any of its powers that are
+# proper divisors of p – 1.  Since p is safe prime, there are only two:
+# 2 and (p – 1) / 2. The number of such generators is 𝜑(p – 1).
+
+def group_generator(n, p):
+    """
+    Creates a generator in the neighborhood of n for the group defined by p
+
+    A generator must not be congruent to 1 for any of its powers that are proper divisors
+    of p – 1.  Since p is safe prime, there are only two: 2 and (p – 1) / 2. The number of
+    such generators is 𝜑(p – 1).
+    """
+    g = n
+    q = (p - 1) // 2
+    while power_mod(g, 2, p) == 1 and power_mod(g, q, p) == 1:
+        g = g + 1
+    return g
 
 # Interactive test
 
