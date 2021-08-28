@@ -31,14 +31,13 @@ def is_even(n): return n & 0x1 == 0
 
 def is_odd(n):  return n & 0x1 == 1
 
-# a^b (mod n) using the method of repeated squares
-#
-# The key here is that every integer can be written as a sum of powers of 2 (binary numbers)
-# and that includes the exponent. By repeated squaring we get a raised to a power of 2. Also
-# recall that a^b * a^c = a^(b + c), so rather than adding we multiply since we are dealing
-# with the exponent.
-
 def power_mod(a, d, n):
+    """
+    a^b (mod n) using the method of repeated squares
+
+    Every integer can be written as a sum of powers of 2 including the exponent. By repeated
+    squaring a is raised successive powers of 2.
+    """
     v = 1 # Value
     p = a # Powers of a
     while d > 0: # 1 bit in the exponent
