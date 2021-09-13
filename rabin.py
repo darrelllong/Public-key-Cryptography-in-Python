@@ -86,13 +86,22 @@ def decode(n):
     return s
 
 if __name__ == '__main__':
+
+    safe = False
+
+    list, args = getopt.getopt(sys.argv[1:], "s")
+
+    for l, a in list:
+        if "-s" in l:
+            safe = True
+
     try:
         bits = int(input("How many bits? "))
     except:
         print("We needed a positive integer!")
         quit()
 
-    (n, k) = generate_keys(bits, False)
+    (n, k) = generate_keys(bits, safe)
 
     print(f"n = {n}")
     print(f"key = {k}")
