@@ -130,7 +130,7 @@ def publicKeyFromStr(key: str) -> tuple[int, int]:
 
 import getopt, sys
 
-if __name__ == '__main__':
+def main():
 
     safe = False
 
@@ -162,3 +162,6 @@ if __name__ == '__main__':
             t = decode(decrypt(c, d, n)); print(f"De[{c}] = {t}")
     except:
         print("\nSo long!")
+
+if __name__ == '__main__':
+    main()

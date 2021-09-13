@@ -85,8 +85,9 @@ def decode(n):
         n //= 256
     return s
 
-if __name__ == '__main__':
+import sys, getopt
 
+def main():
     safe = False
 
     list, args = getopt.getopt(sys.argv[1:], "s")
@@ -114,3 +115,6 @@ if __name__ == '__main__':
             t = decode(decrypt(c, k)); print(f"De[{c}] = {t}")
     except:
         print("\nSo long!")
+
+if __name__ == '__main__':
+    main()

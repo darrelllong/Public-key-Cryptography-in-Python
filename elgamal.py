@@ -74,22 +74,37 @@ def decode(n):
         n //= 256
     return s
 
-try:
-    bits = int(input("How many bits? "))
-except:
-    print("We needed a positive integer!")
-    quit()
+import sys, getopt
 
-(prv, pub) = generate_keys(bits, False)
+def main():
+    safe = False
 
-print(f"pub = {pub}")
-print(f"prv = {prv}")
+    list, args = getopt.getopt(sys.argv[1:], "s")
 
-m = ""
-try:
-    while not m in ["Quit", "quit", "Q", "q", "Exit", "exit"]:
-        m = input("?? ")
-        c = encrypt(encode(m), pub); print(f"En[{m}] = {c}")
-        t = decode(decrypt(c, prv)); print(f"De[{c}] = {t}")
-except:
-    print("\nSo long!")
+    for l, a in list:
+        if "-s" in l:
+            safe = True
+
+
+    try:
+        bits = int(input("How many bits? "))
+    except:
+        print("We needed a positive integer!")
+        quit()
+
+    (prv, pub) = generate_keys(bits, False)
+
+    print(f"pub = {pub}")
+    print(f"prv = {prv}")
+
+    m = ""
+    try:
+        while not m in ["Quit", "quit", "Q", "q", "Exit", "exit"]:
+            m = input("?? ")
+            c = encrypt(encode(m), pub); print(f"En[{m}] = {c}")
+            t = decode(decrypt(c, prv)); print(f"De[{c}] = {t}")
+    except:
+        print("\nSo long!")
+
+if __name__ == '__main__':
+    main()
