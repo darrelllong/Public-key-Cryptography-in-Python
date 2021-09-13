@@ -99,8 +99,7 @@ def main():
     try:
         bits = int(input("How many bits? "))
     except:
-        print("We needed a positive integer!")
-        quit()
+        quit("We needed a positive integer!")
 
     (n, k) = generate_keys(bits, safe)
 
