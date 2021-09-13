@@ -128,7 +128,18 @@ def publicKeyFromStr(key: str) -> tuple[int, int]:
 
     return (e, n)
 
+import getopt, sys
+
 if __name__ == '__main__':
+
+    safe = False
+
+    list, args = getopt.getopt(sys.argv[1:], "s")
+
+    for l, a in list:
+        if "-s" in l:
+            safe = True
+
     # Interactively encrypt/decrypt
 
     try:
@@ -137,7 +148,7 @@ if __name__ == '__main__':
         print("We needed a positive integer!")
         quit()
 
-    (e, d, n) = generate_keys(bits, False)
+    (e, d, n) = generate_keys(bits, safe)
 
     print(f"e = {e}")
     print(f"d = {d}")
