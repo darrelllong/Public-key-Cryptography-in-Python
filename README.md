@@ -113,4 +113,23 @@ by using several independently chosen values of *a*.
 }
 ```
 
+Numbers such as this (a Carmichael number):
+```
+29674495668685510550154174642905332730771991799853043350995075531276838753171770199594238596428121188033664754218345562493168782883
+```
+will pass both Miller-Rabin and Solovay Strassen.
+
+```
+@article{arnault1995constructing,
+  title={Constructing Carmichael numbers which are strong pseudoprimes to several bases},
+  author={Arnault, Fran{\c{c}}ois},
+  journal={Journal of Symbolic Computation},
+  volume={20},
+  number={2},
+  pages={151--161},
+  year={1995},
+  publisher={Elsevier}
+}
+```
+
 ![Cutting the Stone](https://darrelllong.github.io/images/Cutting_the_Stone_(Bosch).jpg)
