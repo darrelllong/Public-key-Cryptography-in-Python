@@ -33,10 +33,12 @@ def is_odd(n):  return n & 0x1 == 1
 
 def power_mod(a, d, n):
     """
-    a^b (mod n) using the method of repeated squares
+     b
+    a (mod n) using the method of repeated squares
 
     Every integer can be written as a sum of powers of 2 including the exponent. By repeated
-    squaring a is raised successive powers of 2.
+    squaring a is raised successive powers of 2. Multiplying these partial powers is the same
+    as adding the exponents.
     """
     v = 1 # Value
     p = a # Powers of a
@@ -83,13 +85,16 @@ def is_prime_MR(n, k=100):
 
 # Compute the Jacobi symbol:
 #
-#  n    ⎡  0 n ≡ 0 (mod k)
-# (-) = ⎢  1 n ≢ 0 (mod k) ⋀ (∃x) a ≡ x**2 (mod k)
-#  k    ⎣ -1 n ≢ 0 (mod k) ⋀ (∄x)
+#  n    ⎡  0 if n ≡ 0 (mod k)
+# (-) = ⎢  1 if n ≢ 0 (mod k) ⋀ (∃x) a ≡ x**2 (mod k)
+#  k    ⎣ -1 if n ≢ 0 (mod k) ⋀ (∄x)
 
 def Jacobi(n, k):
     """
-    Compute the Jacobi symbol
+    Compute the Jacobi symbol:
+      n    ⎡  0 if n ≡ 0 (mod k)
+     (-) = ⎢  1 if n ≢ 0 (mod k) ⋀ (∃x) a ≡ x**2 (mod k)
+      k    ⎣ -1 if n ≢ 0 (mod k) ⋀ (∄x)
     """
     assert(k > 0 and is_odd(k))
     n = n % k
@@ -155,8 +160,8 @@ def safe_prime(low, high, confidence=100):
 def rabin_prime(low, high, safe=True):
     """
     Generate a Rabin prime p ≢ 3 (mod 4), low ⩽ p ⩽ high.
-    Default is to generate a safe prime.
-    Passing safe=False will generate a random prime instead.
+    Default is to use a safe prime.
+    Passing safe=False will use a random prime instead.
     """
     f = safe_prime if safe else random_prime
     p = f(low, high)
