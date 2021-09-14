@@ -107,5 +107,6 @@ by using several independently chosen values of *a*.
   journal={Annals of Mathematics},
   pages={781--793},
   year={2004},
+  publisher={Princeton University and the Institute for Advanced Study}
 }
 ```
