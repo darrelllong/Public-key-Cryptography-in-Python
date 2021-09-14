@@ -65,7 +65,7 @@ composite.
 
 The simplest primality test is trial division: given an input number,
 *n*, check whether it is evenly divisible by any prime number between
-2 and √*n*. If there is no remainder, then n is composite; else, it
+2 and √*n*. If there is no remainder, then *n* is composite; else, it
 is prime. Of course, trial division is infeasible for large integers.
 
 Probabilistic tests provide provable bounds on the probability of
