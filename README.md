@@ -110,3 +110,4 @@ by using several independently chosen values of *a*.
   publisher={Princeton University and the Institute for Advanced Study}
 }
 ```
+![Cutting the Stone](https://darrelllong.github.io/images/Cutting_the_Stone_(Bosch).jpg)
