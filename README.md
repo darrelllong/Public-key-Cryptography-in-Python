@@ -101,7 +101,7 @@ by using several independently chosen values of *a*.
 }
 
 @article{agrawal2004primes,
-  title={{P}RIMES is in {P}},
+  title={{PRIMES} is in {P}},
   author={Agrawal, Manindra and Kayal, Neeraj and Saxena, Nitin},
   journal={Annals of Mathematics},
   pages={781--793},
