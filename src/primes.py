@@ -72,7 +72,7 @@ from math import log2 as lg
 def perfect_power(n):
     logN = int(lg(n) + 1)
     for b in range(2, logN):
-        low  = 1
+        low  = 2
         high = 1 << int((logN / b) + 1)
         while low < high - 1:
             middle = int((low + high) / 2)
