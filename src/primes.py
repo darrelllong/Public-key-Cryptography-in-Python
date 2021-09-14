@@ -78,9 +78,12 @@ def perfect_power(n):
             middle = int((low + high) / 2)
             print(f"l = {low} m = {middle} h = {high}")
             ab = power(middle, b)
-            if n < ab:
+            print(f"ab = {ab}")
+            if ab > n:
+                print("too big")
                 high = middle
-            elif n > ab:
+            elif ab < n:
+                print("too small")
                 low = middle
             else:
                 return True
