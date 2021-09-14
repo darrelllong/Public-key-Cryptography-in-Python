@@ -31,6 +31,24 @@ def is_even(n): return n & 0x1 == 0
 
 def is_odd(n):  return n & 0x1 == 1
 
+def power(a, d):
+    """
+     b
+    a  using the method of repeated squares
+
+    Every integer can be written as a sum of powers of 2 including the exponent. By repeated
+    squaring a is raised successive powers of 2. Multiplying these partial powers is the same
+    as adding the exponents.
+    """
+    v = 1 # Value
+    p = a # Powers of a
+    while d > 0: # 1 bit in the exponent
+        if is_odd(d):
+            v *= p
+        p *= p # Next power of two
+        d //= 2
+    return v
+
 def power_mod(a, d, n):
     """
      b
@@ -48,6 +66,24 @@ def power_mod(a, d, n):
         p = p**2 % n # Next power of two
         d //= 2
     return v
+
+from math import log2 as lg
+
+def perfect_power(n):
+    logN = int(lg(n) + 1)
+    for b in range(2, logN):
+        low  = 1
+        high = 1 << int((logN / b) + 1)
+        while low < high - 1:
+            middle = int((low + high) / 2)
+            ab = power(middle, b)
+            if n < ab:
+                high = middle
+            elif n > ab:
+                low = middle
+            else:
+                return True
+    return False
 
 # Witness loop of the Miller-Rabin probabilistic primality test
 
@@ -253,5 +289,7 @@ if __name__ == '__main__':
                 print(f"{g} is probably prime.")
             else:
                 print(f"{g} is composite.")
-    except:
-        print("\nSo long!")
+            if perfect_power(g):
+                print(f"{g} is a perfect power.")
+    except Exception as e:
+        print("\nSo long! {e}", e)
