@@ -71,7 +71,7 @@ is prime. Of course, trial division is infeasible for large integers.
 Probabilistic tests provide provable bounds on the probability of
 being fooled by a composite number. Many popular primality tests
 are probabilistic tests. Apart from the tested number *n*, these tests
-use some other numbers *a*, which are chosen at random from some
+use some other numbers *a*, called *witnesses*, which are chosen at random from some
 sample space; the usual randomized primality tests never report a
 prime number as composite, but a composite number can be reported
 as prime. Repeating the test can reduce the probability of error
