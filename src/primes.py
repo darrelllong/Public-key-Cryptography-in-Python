@@ -76,6 +76,7 @@ def perfect_power(n):
         high = 1 << int((logN / b) + 1)
         while low < high - 1:
             middle = int((low + high) / 2)
+            print(f"l = {low} m = {middle} h = {high}")
             ab = power(middle, b)
             if n < ab:
                 high = middle
