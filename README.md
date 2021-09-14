@@ -3,6 +3,8 @@ Primality and public-key cryptography routines in Python
 
 Originally written for the students at the University of California, Santa Cruz.
 
+## Public-key Algorithms
+
 ```
 @article{rivest1978method,
   title={A method for obtaining digital signatures and public-key cryptosystems},
@@ -51,7 +53,7 @@ a little slow, but you do not need to do this more than once.
 }
 ```
 
-# Primality Testing
+## Primality Testing
 
 A primality test is an algorithm for determining whether an input
 number is prime. Unlike integer factorization, primality tests do
@@ -110,4 +112,5 @@ by using several independently chosen values of *a*.
   publisher={Princeton University and the Institute for Advanced Study}
 }
 ```
+
 ![Cutting the Stone](https://darrelllong.github.io/images/Cutting_the_Stone_(Bosch).jpg)
