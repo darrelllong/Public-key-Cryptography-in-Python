@@ -58,9 +58,9 @@ number is prime. Unlike integer factorization, primality tests do
 not generally yield the prime factors, only whether the input number
 is prime. Factorization is thought to be a computationally difficult
 problem. At the same time, primality testing requires polynomial
-time is polynomial in the size of the input (the logarithm of the
+time. It is polynomial in the size of the input (the logarithm of the
 cardinality of the number). Some primality tests prove that a number
-is prime, while others like Miller–Rabin prove that a number is
+is prime, while others like probabilistic Miller–Rabin prove that a number is
 composite.
 
 The simplest primality test is trial division: given an input number,
