@@ -99,3 +99,12 @@ by using several independently chosen values of *a*.
   year={1980},
   publisher={Elsevier}
 }
+
+@article{agrawal2004primes,
+  title={{P}RIMES is in {P}},
+  author={Agrawal, Manindra and Kayal, Neeraj and Saxena, Nitin},
+  journal={Annals of Mathematics},
+  pages={781--793},
+  year={2004},
+}
+```
