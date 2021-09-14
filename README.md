@@ -57,7 +57,8 @@ A primality test is an algorithm for determining whether an input
 number is prime. Unlike integer factorization, primality tests do
 not generally yield the prime factors, only whether the input number
 is prime. Factorization is thought to be a computationally *hard*
-problem. At the same time, primality testing requires polynomial
+problem. While at the same time, primality testing has been recently shown to
+require polynomial
 time. It is polynomial in the size of the input (the logarithm of the
 cardinality of the number). Some primality tests prove that a number
 is prime, while others like probabilistic Miller–Rabin prove that a number is
