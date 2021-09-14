@@ -53,6 +53,30 @@ a little slow, but you do not need to do this more than once.
 
 # Primality Testing
 
+A primality test is an algorithm for determining whether an input
+number is prime. Unlike integer factorization, primality tests do
+not generally yield the prime factors, only whether the input number
+is prime. Factorization is thought to be a computationally difficult
+problem. At the same time, primality testing requires polynomial
+time is polynomial in the size of the input (the logarithm of the
+cardinality of the number). Some primality tests prove that a number
+is prime, while others like Miller–Rabin prove that a number is
+composite.
+
+The simplest primality test is trial division: given an input number,
+*n*, check whether it is evenly divisible by any prime number between
+2 and √*n*. If there is no remainder, then n is composite; else, it
+is prime. Of course, trial division is infeasible for large integers.
+
+Probabilistic tests provide provable bounds on the probability of
+being fooled by a composite number. Many popular primality tests
+are probabilistic tests. Apart from the tested number *n*, these tests
+use some other numbers *a*, which are chosen at random from some
+sample space; the usual randomized primality tests never report a
+prime number as composite, but a composite number can be reported
+as prime. Repeating the test can reduce the probability of error
+by using several independently chosen values of *a*.
+
 ```
 @article{solovay1977fast,
   title={A fast Monte-Carlo test for primality},
