@@ -74,17 +74,12 @@ def perfect_power(n):
     for b in range(2, logN):
         low  = 2
         high = 1 << int((logN / b) + 1)
-        print("new loop l = {low} h= {high}")
         while low < high - 1:
-            middle = int((low + high) / 2)
-            print(f"l = {low} m = {middle} h = {high}")
+            middle = (low + high) // 2
             ab = power(middle, b)
-            print(f"ab = {ab}")
             if ab > n:
-                print("too big")
                 high = middle
             elif ab < n:
-                print("too small")
                 low = middle
             else:
                 return True
