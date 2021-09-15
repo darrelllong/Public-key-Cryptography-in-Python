@@ -86,7 +86,7 @@ def byteLength(n: int) -> int:
 #     a 32-bit integer -- the length n of the field; and
 #     n bytes -- the contents of the field.
 
-def publicKeyToStr(e: int, n: int) -> str:
+def publicKeyToStr(e, n):
     key_type = b"ssh-rsa"
     key = bytearray()
 
@@ -100,7 +100,7 @@ def publicKeyToStr(e: int, n: int) -> str:
 
 # Retrieve (e, n) from a public ssh key string.
 
-def publicKeyFromStr(key: str) -> tuple[int, int]:
+def publicKeyFromStr(key):
     assert key.startswith("ssh-rsa")
 
     # The key-string is a type (i.e., "ssh-rsa") followed by e and n, followed
