@@ -169,7 +169,7 @@ def is_prime_SS(n, k=100):
 
 # Default
 
-is_prime = is_prime_MR
+def is_prime(n, k=100): return is_prime_MR(n, k) and is_prime_SS(n, k)
 
 # Routines to generate primes
 
