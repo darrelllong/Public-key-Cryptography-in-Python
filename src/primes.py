@@ -73,7 +73,7 @@ def perfect_power(n):
     logN = int(lg(n) + 1)
     for b in range(2, logN):
         low  = 2
-        high = 1 << int((logN / b) + 1)
+        high = 1 << logN // b + 1
         while low < high - 1:
             middle = (low + high) // 2
             ab = power(middle, b)
