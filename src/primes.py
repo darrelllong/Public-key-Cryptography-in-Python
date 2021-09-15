@@ -34,7 +34,7 @@ def is_odd(n):  return n & 0x1 == 1
 def power(a, d):
     """
      b
-    a  using the method of repeated squares
+    a  using the method of repeated squares.
 
     Every integer can be written as a sum of powers of 2 including the exponent. By repeated
     squaring a is raised successive powers of 2. Multiplying these partial powers is the same
@@ -52,7 +52,7 @@ def power(a, d):
 def power_mod(a, d, n):
     """
      b
-    a (mod n) using the method of repeated squares
+    a (mod n) using the method of repeated squares.
 
     Every integer can be written as a sum of powers of 2 including the exponent. By repeated
     squaring a is raised successive powers of 2. Multiplying these partial powers is the same
@@ -89,9 +89,10 @@ def perfect_power(n):
                 return (middle, b)
     return (None, None)
 
-# Witness loop of the Miller-Rabin probabilistic primality test
-
 def witness(a, n):
+    """
+    The witness loop of the Miller-Rabin probabilistic primality test.
+    """
     u = n - 1
     t = 0
     while is_even(u):
@@ -107,11 +108,9 @@ def witness(a, n):
 
 from random import randrange as uniform
 
-# Miller-Rabin probabilistic primality test
-
 def is_prime_MR(n, k=100):
     """
-    Miller-Rabin probabilistic primality test of n with confidence k
+    Miller-Rabin probabilistic primality test of n with confidence k.
     """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
@@ -122,12 +121,6 @@ def is_prime_MR(n, k=100):
         if witness(a, n):
             return False
     return True
-
-# Compute the Jacobi symbol:
-#
-#  n    ⎡  0 if n ≡ 0 (mod k)
-# (-) = ⎢  1 if n ≢ 0 (mod k) ⋀ (∃x) a ≡ x**2 (mod k)
-#  k    ⎣ -1 if n ≢ 0 (mod k) ⋀ (∄x)
 
 def Jacobi(n, k):
     """
@@ -154,7 +147,7 @@ def Jacobi(n, k):
 
 def is_prime_SS(n, k=100):
     """
-    Solovay-Strassen probabilistic primality test of n with confidence k
+    Solovay-Strassen probabilistic primality test of n with confidence k.
     """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
@@ -187,8 +180,8 @@ def safe_prime(low, high, confidence=100):
     """
     Generate and return a safe prime in the range [low, high].
 
-    A safe prime follows a Sophie German prime. If prime(p) and prime(2p + 1)
-    then p is a Sophie Germain prime and 2p + 1 is a safe prime.
+    A safe prime follows a Sophie German prime. If prime(p) and prime(2p + 1) then p is a
+    Sophie Germain prime and 2p + 1 is a safe prime.
     """
     p = random_prime(low, high)
     while not is_prime(2 * p + 1, confidence):
@@ -199,9 +192,7 @@ def safe_prime(low, high, confidence=100):
 
 def rabin_prime(low, high, safe=True):
     """
-    Generate a Rabin prime p ≢ 3 (mod 4), low ⩽ p ⩽ high.
-    Default is to use a safe prime.
-    Passing safe=False will use a random prime instead.
+    Generate a Rabin prime p ≢ 3 (mod 4), low ⩽ p ⩽ high. Default is to use a safe prime.
     """
     f = safe_prime if safe else random_prime
     p = f(low, high)
@@ -209,11 +200,11 @@ def rabin_prime(low, high, safe=True):
         p = f(low, high)
     return p
 
-# Euclidean extended greatest common divisor
-
 def extended_GCD(a, b):
     """
-    Run the extended Euclid algorithm on a, b.
+    The extended Euclidean algorithm computes the greatest common divisor and the Bézout
+    coefficients s, t.
+
     Returns (remainder, (s, t))
     """
     (r, rP) = (a, b)
@@ -226,30 +217,24 @@ def extended_GCD(a, b):
         (t, tP) = (tP, t - q * tP)
     return (r, (s, t))
 
-# Euclidean greatest common divisor
-
 def gcd(a, b):
     """
-    Compute the greatest common divisor gcd(a, b)
+    Compute the greatest common divisor gcd(a, b) using the Euclidean algorithm.
     """
     while b != 0:
         a, b = b, a % b
     return a
 
-# Least common multiple
-
 def lcm(a, b):
     """
-    Compute the least common multiple lcm(a, b)
+    Compute the least common multiple lcm(a, b).
     """
     return (a * b) // gcd(a, b)
-
-# Multiplicative inverse of a (mod n), using Bézout's identity.
 
 def inverse(a, n):
     """
     Compute the muliplicative inverse of a (mod n) using the Euclidean algorithm and Bézout's
-    identity.
+    identity: a×s + b×t = 1.
     """
     r, rP = n, a
     t, tP = 0, 1
@@ -258,19 +243,15 @@ def inverse(a, n):
         r, rP = rP, r - q * rP
         t, tP = tP, t - q * tP
     if r > 1:
-        return "no inverse"
+        return None
     if t < 0:
         return t + n
     else:
         return t
 
-# A generator must not be congruent to 1 for any of its powers that are
-# proper divisors of p – 1.  Since p is safe prime, there are only two:
-# 2 and (p – 1) / 2. The number of such generators is 𝜑(p – 1).
-
 def group_generator(n, p):
     """
-    Creates a generator in the neighborhood of n for the group defined by p
+    Creates a generator in the neighborhood of n for the group defined by p.
 
     A generator must not be congruent to 1 for any of its powers that are proper divisors
     of p – 1.  Since p is safe prime, there are only two: 2 and (p – 1) / 2. The number of
