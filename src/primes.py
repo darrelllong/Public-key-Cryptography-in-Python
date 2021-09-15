@@ -242,7 +242,7 @@ def lcm(a, b):
     """
     Compute the least common multiple lcm(a, b)
     """
-    return abs(a * b) // gcd(a, b)
+    return (a * b) // gcd(a, b)
 
 # Multiplicative inverse of a (mod n), using Bézout's identity.
 
