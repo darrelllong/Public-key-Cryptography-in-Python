@@ -86,8 +86,8 @@ def perfect_power(n):
             elif ab < n:
                 low = middle
             else:
-                return True
-    return False
+                return (middle, b)
+    return (None, None)
 
 # Witness loop of the Miller-Rabin probabilistic primality test
 
@@ -293,7 +293,8 @@ if __name__ == '__main__':
                 print(f"{g} is probably prime.")
             else:
                 print(f"{g} is composite.")
-            if perfect_power(g):
-                print(f"{g} is a perfect power.")
+            (a, b) = perfect_power(g)
+            if (a, b) != (None, None):
+                print(f"{g} = {a}^{b} is a perfect power.")
     except Exception as e:
-        print("\nSo long! {e}", e)
+        print("\nSo long!")
