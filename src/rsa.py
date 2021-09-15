@@ -36,6 +36,19 @@ import primes
 # Generate a key (e, d, n) of a specified bit-length with optional safe primes
 
 def generate_keys(bits, safe=False):
+    """
+    Generates the RSA key pairs: (e, n) and (d, n)
+    You have the option of using safe primes, though this is probably unnecessary.
+
+    Each of the generated primes p and q will each have approximately 1/2 of the bits.
+
+    Instead of 𝜑(n), we use λ(n) for the modulus. λ is slightly more efficient.
+
+               16
+    e will be 2  + 1 unless gcd(e, λ) ≠ 1, in which case is it will be slightly larger.
+
+    Return the triple (e, d, n)
+    """
     size = bits // 2
     low  = 2**(size - 1) # Assure the primes are each approximately half of the
     high = 2**size - 1   # bits in the modulus.
@@ -131,11 +144,8 @@ def publicKeyFromStr(key):
 import getopt, sys
 
 def main():
-
     safe = False
-
     list, args = getopt.getopt(sys.argv[1:], "s")
-
     for l, a in list:
         if "-s" in l:
             safe = True
