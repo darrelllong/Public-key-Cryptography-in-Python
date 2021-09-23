@@ -274,6 +274,10 @@ if __name__ == '__main__':
                 print(f"{g} is probably prime.")
             else:
                 print(f"{g} is composite.")
+                if is_prime_MR(g):
+                    print("Miller-Rabin disagrees")
+                if is_prime_SS(g):
+                    print("Solovay-Strassen disagrees")
             (a, b) = perfect_power(g)
             if (a, b) != (None, None):
                 print(f"{g} = {a}^{b} is a perfect power.")
