@@ -51,7 +51,7 @@ def generate_keys(n_bits, safe=True):
 # Rabin encryption is computing the square (mod n)
 _h = crc32(b"Michael O. Rabin")
 def encrypt(m, n):
-    return primes.power_mod(m * 2**32 + _h, 2, n) # Insert tag and square (mod n)
+    return primes.power_mod(m * 2**32 + _h + n // 2, 2, n) # Insert tag and square (mod n)
 
 # Decryption requires us to compute the four square roots (mod n). We can only efficiently
 # do this if we know p and q.
@@ -64,7 +64,7 @@ def decrypt(m, key):
     mQ = primes.power_mod(m, (q + 1) // 4, q)
     x = (yP * p * mQ + yQ * q * mP) % n
     y = (yP * p * mQ - yQ * q * mP) % n
-    msgs = [x, n - x, y, n - y]
+    msgs = [x - n // 2, n - x - n // 2, y - n // 2, n - y - n // 2]
     for d in msgs:
         if d % 2**32 == _h:
             return d // 2**32
