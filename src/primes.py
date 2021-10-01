@@ -36,12 +36,12 @@ def lg(n):
     Compute log(n)
                2
     """
-    log = 0
+    k = 0
     n = abs(n)
     while n > 0:
         n //= 2
-        log += 1
-    return log
+        k += 1
+    return k
 
 def power(a, d):
     """
@@ -78,8 +78,6 @@ def power_mod(a, d, n):
         p = p**2 % n # Next power of two
         d //= 2
     return v
-
-from math import log2 as lg
 
 def perfect_power(n):
     """
