@@ -31,6 +31,18 @@ def is_even(n): return n & 0x1 == 0
 
 def is_odd(n):  return n & 0x1 == 1
 
+def lg(n):
+    """
+    Compute log(n)
+               2
+    """
+    log = 0
+    n = abs(n)
+    while n > 0:
+        n //= 2
+        log += 1
+    return log
+
 def power(a, d):
     """
      b

@@ -109,6 +109,7 @@ def main():
     (n, k) = generate_keys(bits, safe)
 
     print(f"n = {n}")
+    print(f"lg({n}) = {primes.lg(n)}")
     print(f"key = {k}")
 
     m = ""
