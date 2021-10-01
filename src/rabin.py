@@ -47,10 +47,15 @@ def generate_keys(n_bits, safe=True):
 
 
 
-# We need to discriminate amongst the four roots
-# Rabin encryption is computing the square (mod n)
 _h = crc32(b"Michael O. Rabin")
 def encrypt(m, n):
+    """
+    Rabin encryption is squaring the message. We need to make sure that the square exceeds
+    n before the modulus, otherwise it is trivial to decode by detecting a perfect power (2
+    in this case. We do this by adding n // 2 before squaring.
+
+    We descriminate among the four possible square roots by adding a 32-bit CRC tag.
+    """
     return primes.power_mod(m * 2**32 + _h + n // 2, 2, n) # Insert tag and square (mod n)
 
 # Decryption requires us to compute the four square roots (mod n). We can only efficiently
