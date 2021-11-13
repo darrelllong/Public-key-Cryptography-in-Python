@@ -190,7 +190,7 @@ def safe_prime(low, high, confidence=100):
     """
     Generate and return a safe prime in the range [low, high].
 
-    A safe prime follows a Sophie German prime. If prime(p) and prime(2p + 1) then p is a
+    A safe prime follows a Sophie Germain prime. If prime(p) and prime(2p + 1) then p is a
     Sophie Germain prime and 2p + 1 is a safe prime.
     """
     p = random_prime(low, high)
