@@ -232,7 +232,7 @@ def gcd(a, b):
     Compute the greatest common divisor gcd(a, b) using the Euclidean algorithm.
     """
     while b != 0:
-        a, b = b, a % b
+        a, b = b, a % b # The simple version so students see what is happening.
     return a
 
 def lcm(a, b):
@@ -246,18 +246,13 @@ def inverse(a, n):
     Compute the muliplicative inverse of a (mod n) using the Euclidean algorithm and Bézout's
     identity: a×s + b×t = 1.
     """
-    r, rP = n, a
-    t, tP = 0, 1
-    while rP != 0:
-        q = r // rP
-        r, rP = rP, r - q * rP
-        t, tP = tP, t - q * tP
+    (r, (s, t)) = extended_GCD(a, n) # We did the hard part already.
     if r > 1:
         return None
-    if t < 0:
-        return t + n
+    if s < 0:
+        return s + n
     else:
-        return t
+        return s
 
 def group_generator(n, p):
     """
