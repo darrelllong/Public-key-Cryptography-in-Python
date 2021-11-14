@@ -124,7 +124,7 @@ def is_prime_MR(n, k=100):
     """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
-    if n < 4:
+    if n == 3:
         return True
     for _ in range (0, k):
         a = uniform(2, n - 1) # Euler witness (or liar)
@@ -137,7 +137,7 @@ def Jacobi(n, k):
     Compute the Jacobi symbol:
       n    ⎡  0 if n ≡ 0 (mod k)
      (-) = ⎢  1 if n ≢ 0 (mod k) ⋀ (∃x) a ≡ x**2 (mod k)
-      k    ⎣ -1 if n ≢ 0 (mod k) ⋀ (∄x)
+      k    ⎣ -1 if n ≢ 0 (mod k) ⋀ (∄x) a ≡ x**2 (mod k)
     """
     assert(k > 0 and is_odd(k))
     n = n % k
