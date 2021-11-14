@@ -84,7 +84,7 @@ def perfect_power(n):
                            b                                                    2
     Determine whether n = a using binary search, should require O(lg n (lg lg n) ) time.
     """
-    logN = int(lg(n)) + 1
+    logN = lg(n) + 1
     for b in range(2, logN):
         low  = 2
         high = 1 << logN // b + 1
