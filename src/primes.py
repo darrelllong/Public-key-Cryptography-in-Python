@@ -150,10 +150,7 @@ def Jacobi(n, k):
         n, k = k, n
         t = -t if n % 4 == 3 and k % 4 == 3 else t
         n = n % k
-    if k == 1:
-        return t
-    else:
-        return 0
+    return t if k == 1 else 0
 
 def is_prime_SS(n, k=100):
     """
@@ -249,10 +246,7 @@ def inverse(a, n):
     (r, (s, t)) = extended_GCD(a, n) # We did the hard part already.
     if r > 1:
         return None
-    if s < 0:
-        return s + n
-    else:
-        return s
+    return s + n if s < 0 else s
 
 def group_generator(n, p):
     """
