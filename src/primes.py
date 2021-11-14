@@ -103,6 +103,7 @@ def witness(a, n):
     """
     The witness loop of the Miller-Rabin probabilistic primality test.
     """
+    # Factor n into u * 2**t + 1
     u = n - 1
     t = 0
     while is_even(u):
