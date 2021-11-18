@@ -30,24 +30,22 @@
 import primes
 
 from random import randrange as uniform
-from zlib import crc32
-
+from zlib   import crc32
 
 def generate_keys(n_bits, safe=True):
     """
     Generate and return a key with n_bits of strength.
     Default is to use safe random numbers.
     """
-    x = n_bits + 32 # Make room for the tag
-    p = primes.rabin_prime(2**(x - 1), 2**x - 1, safe)
-    q = primes.rabin_prime(2**(x - 1), 2**x - 1, safe)
+    x = n_bits // 2 + 32 // 2 # Make room for the tag (two pieces of 16 bits)
+    p = primes.rabin_prime(2**x, 2**(x + 1) - 1, safe)
+    q = primes.rabin_prime(2**x, 2**(x + 1) - 1, safe)
     while p == q:
         q = primes.rabin_prime(2**(x - 1), 2**x - 1, safe)
     return (p * q, (p, q))
 
-
-
 _h = crc32(b"Michael O. Rabin")
+
 def encrypt(m, n):
     """
     Rabin encryption is squaring the message. We need to make sure that the square exceeds
