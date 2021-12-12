@@ -98,7 +98,7 @@ def main():
     (en, de) = generate_keys(bits, safe)
 
     print(f"n = {en}")
-    print(f"d = {de}")
+    print(f"(d, 𝛄) = {de}")
 
     m = ""
     try:
