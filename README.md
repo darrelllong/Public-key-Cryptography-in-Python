@@ -39,6 +39,18 @@ Originally written for the students at the University of California, Santa Cruz.
   publisher={IEEE}
 }
 ```
+```
+@article{schmidt2006new,
+  title={A new rabin-type trapdoor permutation equivalent to factoring},
+  author={Schmidt-Samoa, Katja},
+  journal={Electronic Notes in Theoretical Computer Science},
+  volume={157},
+  number={3},
+  pages={79--94},
+  year={2006},
+  publisher={Elsevier}
+}
+```
 
 The implementation gives you the choice of using *safe primes* for *p* and *q*. This can be
 a little slow, but you do not need to do this more than once.
