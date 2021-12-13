@@ -10,6 +10,8 @@ Originally written for the students at the University of California, Santa Cruz.
 
 ## Public-key Algorithms
 
+The traditional RSA algorithm implemented using the Carmichael 𝜆 rather than Euler's 𝜑.
+
 ```
 @article{rivest1978method,
   title={A method for obtaining digital signatures and public-key cryptosystems},
@@ -23,6 +25,8 @@ Originally written for the students at the University of California, Santa Cruz.
 }
 ```
 
+Rabin's public-key system based on squaring.
+
 ```
 @techreport{rabin1979digitalized,
   title={Digitalized signatures and public-key functions as intractable as factorization},
@@ -31,6 +35,8 @@ Originally written for the students at the University of California, Santa Cruz.
   institution={Massachusetts Institute of Technology Cambridge Laboratory for Computer Science}
 }
 ```
+
+The El Gamal public-key system.
 
 ```
 @article{elgamal1985public,
@@ -44,6 +50,9 @@ Originally written for the students at the University of California, Santa Cruz.
   publisher={IEEE}
 }
 ```
+
+The Schmidt-Samoa system (related to RSA and Rabin).
+
 ```
 @article{schmidt2006new,
   title={A new rabin-type trapdoor permutation equivalent to factoring},
