@@ -88,7 +88,6 @@ def main():
         if "-s" in l:
             safe = True
 
-
     try:
         bits = int(input("How many bits? "))
     except:
