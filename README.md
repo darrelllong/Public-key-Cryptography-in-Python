@@ -123,6 +123,9 @@ Implemented here are:
   year={1980},
   publisher={Elsevier}
 }
+```
+While it is impractical for large integers, one could implement the polynomial-time AKS algorithm.
+```
 
 @article{agrawal2004primes,
   title={{PRIMES} is in {P}},
