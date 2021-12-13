@@ -66,19 +66,6 @@ The Schmidt-Samoa system (related to RSA and Rabin).
 }
 ```
 
-The implementation gives you the choice of using *safe primes* for *p* and *q*. This can be
-a little slow, but you do not need to do this more than once.
-
-```
-@misc{cryptoeprint:2001:007,
-    author       = {Ronald Rivest and Robert Silverman},
-    title        = {Are 'Strong' Primes Needed for {RSA}?},
-    howpublished = {Cryptology ePrint Archive, Report 2001/007},
-    year         = {2001},
-    note         = {\url{https://ia.cr/2001/007}},
-}
-```
-
 ## Primality Testing
 
 A primality test is an algorithm for determining whether an input
@@ -164,5 +151,34 @@ will pass both Miller-Rabin and Solovay Strassen.
   publisher={Elsevier}
 }
 ```
+# Utility Routines
+This implementation gives you the choice of using *safe primes* for *p* and *q*. This can be
+a little slow, but you do not need to do this more than once.
+
+```
+@misc{cryptoeprint:2001:007,
+    author       = {Ronald Rivest and Robert Silverman},
+    title        = {Are 'Strong' Primes Needed for {RSA}?},
+    howpublished = {Cryptology ePrint Archive, Report 2001/007},
+    year         = {2001},
+    note         = {\url{https://ia.cr/2001/007}},
+}
+```
+
+This implementation provides these utilities:
+* `is_odd(x)` and `is_even(x)`
+* `power(a, e)`
+* `power_mod(a, e, n)`
+* `perfect_power(n)`
+* `is_prime_MR(n, k)`
+* `is_prime_SS(n, k)`
+* `random_prime(low, high, k)`
+* `safe_prime(low, high, k)`
+* `rabin_prime(low, high safety)`
+* `extended_GCD(a, b)`
+* `gcd(a, b)`
+* `lcm(a, b)`
+* `inverse(a, n)`
+* `group_generator(n, p)`
 
 ![Cutting the Stone](https://darrelllong.github.io/images/Cutting_the_Stone_(Bosch).jpg)
