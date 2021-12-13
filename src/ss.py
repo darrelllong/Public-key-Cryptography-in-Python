@@ -98,6 +98,7 @@ def main():
     (en, de) = generate_keys(bits, safe)
 
     print(f"n = {en}")
+    print(f"lg(n) = {primes.lg(en)}")
     print(f"(d, 𝛄) = {de}")
 
     m = ""
