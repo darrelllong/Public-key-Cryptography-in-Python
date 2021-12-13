@@ -1,6 +1,11 @@
 # Public key Cryptography in Python
 Primality and public-key cryptography routines in Python
 
+* RSA
+* Rabin
+* El Gamal
+* Schmidt-Samoa
+
 Originally written for the students at the University of California, Santa Cruz.
 
 ## Public-key Algorithms
