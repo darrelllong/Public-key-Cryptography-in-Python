@@ -161,7 +161,9 @@ def main():
 
     print(f"e = {e}")
     print(f"d = {d}")
+    print(f"lg(d) = {primes.lg(d)}")
     print(f"n = {n}")
+    print(f"lg(n) = {primes.lg(n)}")
 
     m = ""
     try:
