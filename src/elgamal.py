@@ -41,7 +41,10 @@ from random import randrange as uniform
 # The private key consists of the values (p, a)
 
 def generate_keys(k, safe = True):
-    p = primes.safe_prime(2**(k - 1), 2**k - 1) if safe else primes.random_prime(2**(k - 1), 2**k - 1)
+    low  = 2**(k - 1)
+    high = 2**k - 1
+    f = primes.safe_prime if safe else primes.random_prime
+    p = f(low, high)
     r = primes.group_generator(2**16 + 1, p)
     a = uniform((p - 1) // 2, p - 1)
     b = primes.power_mod(r, a, p)
