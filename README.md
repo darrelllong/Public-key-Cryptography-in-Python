@@ -97,6 +97,10 @@ prime number as composite, but a composite number can be reported
 as prime. Repeating the test can reduce the probability of error
 by using several independently chosen values of *a*.
 
+Implemented here are:
+* Miller-Rabin
+* Solovay-Strassen
+
 ```
 @article{solovay1977fast,
   title={A fast Monte-Carlo test for primality},
