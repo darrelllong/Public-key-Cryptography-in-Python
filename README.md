@@ -172,6 +172,7 @@ This implementation provides these utilities:
 * `perfect_power(n)`
 * `is_prime_MR(n, k)`
 * `is_prime_SS(n, k)`
+* `is_prime(n, k)` = `is_prime_MR(n, k)` ∧ `is_prime_SS(n, k)`
 * `random_prime(low, high, k)`
 * `safe_prime(low, high, k)`
 * `rabin_prime(low, high safety)`
