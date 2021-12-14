@@ -1,7 +1,8 @@
 # Public key Cryptography in Python
 Primality and public-key cryptography routines in Python
 
-* RSA
+* Cocks — First public-key algorithm 1973, *classified*)
+* RSA — RSA (1978) using 𝜆 rather than 𝜑
 * Rabin
 * El Gamal
 * Schmidt-Samoa
@@ -10,7 +11,7 @@ Originally written for the students at the University of California, Santa Cruz.
 
 ## Public-key Algorithms
 
-The traditional RSA algorithm implemented using the Carmichael 𝜆 rather than Euler's 𝜑.
+The traditional RSA algorithm implemented using Carmichael's 𝜆 rather than Euler's 𝜑.
 
 ```
 @article{rivest1978method,
