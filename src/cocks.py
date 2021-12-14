@@ -82,7 +82,7 @@ def main():
 
     print(f"n = {en}")
     print(f"lg(n) = {primes.lg(en)}")
-    print(f"(d, 𝛄) = {de}")
+    print(f"(π, q) = {de}")
 
     m = ""
     try:
