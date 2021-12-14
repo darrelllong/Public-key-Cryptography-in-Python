@@ -19,7 +19,7 @@ The traditional RSA algorithm implemented using the Carmichael 𝜆 rather than 
   journal={Communications of the ACM},
   volume={21},
   number={2},
-  pages={120--126},
+  pages={120-126},
   year={1978},
   publisher={ACM New York, NY, USA}
 }
@@ -45,13 +45,13 @@ The El Gamal public-key system.
   journal={IEEE transactions on information theory},
   volume={31},
   number={4},
-  pages={469--472},
+  pages={469-472},
   year={1985},
   publisher={IEEE}
 }
 ```
 
-The Schmidt-Samoa system (related to RSA and Rabin).
+The Schmidt-Samoa public-key system (related to RSA and Rabin).
 
 ```
 @article{schmidt2006new,
@@ -60,7 +60,7 @@ The Schmidt-Samoa system (related to RSA and Rabin).
   journal={Electronic Notes in Theoretical Computer Science},
   volume={157},
   number={3},
-  pages={79--94},
+  pages={79-94},
   year={2006},
   publisher={Elsevier}
 }
@@ -104,7 +104,7 @@ Implemented here are:
   journal={SIAM journal on Computing},
   volume={6},
   number={1},
-  pages={84--85},
+  pages={84-85},
   year={1977},
   publisher={SIAM}
 }
@@ -115,7 +115,7 @@ Implemented here are:
   journal={Journal of number theory},
   volume={12},
   number={1},
-  pages={128--138},
+  pages={128-138},
   year={1980},
   publisher={Elsevier}
 }
@@ -127,7 +127,7 @@ While it is impractical for large integers, one could implement the polynomial-t
   title={{PRIMES} is in {P}},
   author={Agrawal, Manindra and Kayal, Neeraj and Saxena, Nitin},
   journal={Annals of Mathematics},
-  pages={781--793},
+  pages={781-793},
   year={2004},
   publisher={Princeton University and the Institute for Advanced Study}
 }
@@ -146,7 +146,7 @@ will pass both Miller-Rabin and Solovay Strassen.
   journal={Journal of Symbolic Computation},
   volume={20},
   number={2},
-  pages={151--161},
+  pages={151-161},
   year={1995},
   publisher={Elsevier}
 }
