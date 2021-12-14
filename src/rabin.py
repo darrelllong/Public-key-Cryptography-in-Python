@@ -73,21 +73,6 @@ def decrypt(m, key):
             return d // 2**32
     return 1279869254 # FAIL
 
-def encode(s):
-    sum = 0
-    pow = 1
-    for c in s:
-        sum += pow * ord(c)
-        pow *= 256
-    return sum
-
-def decode(n):
-    s = ""
-    while n > 0:
-        s = s + chr(n % 256)
-        n //= 256
-    return s
-
 import sys, getopt
 
 def main():
@@ -114,8 +99,8 @@ def main():
     try:
         while not m in ["Quit", "quit", "Q", "q", "Exit", "exit"]:
             m = input("?? ")
-            c = encrypt(encode(m), n); print(f"En[{m}] = {c}")
-            t = decode(decrypt(c, k)); print(f"De[{c}] = {t}")
+            c = encrypt(primes.encode(m), n); print(f"En[{m}] = {c}")
+            t = primes.decode(decrypt(c, k)); print(f"De[{c}] = {t}")
     except:
         print("\nSo long!")
 

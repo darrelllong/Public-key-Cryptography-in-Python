@@ -62,21 +62,6 @@ def decrypt(m, key):
     (𝛾, 𝛿) = m
     return (primes.power_mod(𝛾, p - 1 - a, p) * 𝛿) % p
 
-def encode(s):
-    sum = 0
-    pow = 1
-    for c in s:
-        sum += pow * ord(c)
-        pow *= 256
-    return sum
-
-def decode(n):
-    s = ""
-    while n > 0:
-        s = s + chr(n % 256)
-        n //= 256
-    return s
-
 import sys, getopt
 
 def main():
@@ -102,8 +87,8 @@ def main():
     try:
         while not m in ["Quit", "quit", "Q", "q", "Exit", "exit"]:
             m = input("?? ")
-            c = encrypt(encode(m), pub); print(f"En[{m}] = {c}")
-            t = decode(decrypt(c, prv)); print(f"De[{c}] = {t}")
+            c = encrypt(primes.encode(m), pub); print(f"En[{m}] = {c}")
+            t = primes.decode(decrypt(c, prv)); print(f"De[{c}] = {t}")
     except:
         print("\nSo long!")
 

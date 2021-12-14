@@ -67,21 +67,6 @@ def generate_keys(bits, safe=False):
     n = p * q         # The modulus
     return (e, d, n)
 
-def encode(s):
-    sum = 0
-    pow = 1
-    for c in s:
-        sum += pow * ord(c)
-        pow *= 256
-    return sum
-
-def decode(n):
-    s = ""
-    while n > 0:
-        s = s + chr(n % 256)
-        n //= 256
-    return s
-
 def encrypt(m, e, n): return primes.power_mod(m, e, n)
 
 def decrypt(c, d, n): return primes.power_mod(c, d, n)
@@ -169,8 +154,8 @@ def main():
     try:
         while not m in ["Quit", "quit", "Q", "q", "Exit", "exit"]:
             m = input("?? ")
-            c = encrypt(encode(m), e, n); print(f"En[{m}] = {c}")
-            t = decode(decrypt(c, d, n)); print(f"De[{c}] = {t}")
+            c = encrypt(primes.encode(m), e, n); print(f"En[{m}] = {c}")
+            t = primes.decode(decrypt(c, d, n)); print(f"De[{c}] = {t}")
     except:
         print("\nSo long!")
 

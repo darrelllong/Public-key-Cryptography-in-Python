@@ -263,6 +263,21 @@ def group_generator(n, p):
         g = g + 1
     return g
 
+def encode(s):
+    sum = 0
+    pow = 1
+    for c in s:
+        sum += pow * ord(c)
+        pow *= 256
+    return sum
+
+def decode(n):
+    s = ""
+    while n > 0:
+        s = s + chr(n % 256)
+        n //= 256
+    return s
+
 # Interactive test
 
 def main():
