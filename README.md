@@ -165,7 +165,7 @@ a little slow, but you do not need to do this more than once.
 }
 ```
 
-This implementation provides these utilities:
+This implementation provides these utilities (these provide the same functionality as some built-ins, but the point is to teach):
 * `is_odd(x)` and `is_even(x)`
 * `power(a, e)`
 * `power_mod(a, e, n)`
