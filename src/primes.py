@@ -170,7 +170,7 @@ def is_prime_SS(n, k=100):
 
 # Default
 
-def is_prime(n, k=100): return is_prime_MR(n, k) and is_prime_SS(n, k)
+def is_prime(n, k=100): return is_prime_SS(n, k) and is_prime_MR(n, k)
 
 # Routines to generate primes
 
@@ -265,7 +265,7 @@ def group_generator(n, p):
 
 # Interactive test
 
-if __name__ == '__main__':
+def main():
     g = 1
     try:
         while g != 0:
@@ -283,3 +283,6 @@ if __name__ == '__main__':
                 print(f"{g} = {a}^{b} is a perfect power.")
     except Exception as e:
         print("\nSo long!")
+
+if __name__ == '__main__':
+    main()
