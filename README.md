@@ -1,8 +1,8 @@
 # Public key Cryptography in Python
 Primality and public-key cryptography routines in Python
 
-* Cocks — First public-key algorithm 1973, *classified*)
-* RSA — RSA (1978) using 𝜆 rather than 𝜑
+* Cocks — First public-key algorithm (1973, *classified*)
+* RSA
 * Rabin
 * El Gamal
 * Schmidt-Samoa
