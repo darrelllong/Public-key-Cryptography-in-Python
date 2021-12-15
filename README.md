@@ -11,6 +11,17 @@ Originally written for the students at the University of California, Santa Cruz.
 
 ## Public-key Algorithms
 
+Clifford Cocks' original proposal for public-key cryptopgraphy. Originally a classified memorandum at GCHQ in 1973.
+
+```
+article{cocks1973note,
+  title={A note on non-secret encryption},
+  author={Cocks, Clifford C},
+  journal={CESG Memo},
+  year={1973}
+}
+```
+
 The traditional RSA algorithm implemented using Carmichael's 𝜆 rather than Euler's 𝜑.
 
 ```
