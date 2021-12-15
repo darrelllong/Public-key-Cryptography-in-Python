@@ -168,7 +168,7 @@ def is_prime_SS(n, k=100):
             return False
     return True
 
-# Default
+# Default is to test using both methods.
 
 def is_prime(n, k=100): return is_prime_SS(n, k) and is_prime_MR(n, k)
 
@@ -183,6 +183,8 @@ def random_prime(low, high, confidence=100):
         guess = uniform(low, high) # Half will be even, the rest have Pr[prime] ≈ 1/log(N).
     return guess
 
+# Safe primes follow Sophie Germain primes: If prime(p) ∧ prime(2p + 1) then
+# 2p + 1 is a safe prime.
 
 def safe_prime(low, high, confidence=100):
     """
@@ -196,7 +198,7 @@ def safe_prime(low, high, confidence=100):
         p = random_prime(low, high)
     return 2 * p + 1
 
-# Rabin prime
+# Rabin prime is a p ≢ 3 (mod 4)
 
 def rabin_prime(low, high, safe=True):
     """
@@ -285,13 +287,15 @@ def main():
     try:
         while g != 0:
             g = int(input("?? "))
-            if g == 2 or is_odd(g) and is_prime(g):
+            mr = is_prime_MR(g)
+            ss = is_prime_SS(g)
+            if g == 2 or is_odd(g) and mr and ss:
                 print(f"{g} is probably prime.")
             else:
                 print(f"{g} is composite.")
-                if is_prime_MR(g):
+                if mr:
                     print("Miller-Rabin disagrees")
-                if is_prime_SS(g):
+                if ss:
                     print("Solovay-Strassen disagrees")
             (a, b) = perfect_power(g)
             if (a, b) != (None, None):
