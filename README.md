@@ -95,8 +95,8 @@ as prime. Repeating the test can reduce the probability of error
 by using several independently chosen values of *a*.
 
 Implemented here are:
-* Miller-Rabin
 * Solovay-Strassen
+* Miller-Rabin
 
 ```
 @article{solovay1977fast,
