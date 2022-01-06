@@ -276,7 +276,7 @@ def encode(s):
 def decode(n):
     s = ""
     while n > 0:
-        s = s + chr(n % 256)
+        s += chr(n % 256)
         n //= 256
     return s
 
