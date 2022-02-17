@@ -164,7 +164,7 @@ def is_prime_SS(n, k=100):
     for _ in range(0, k):
         a = uniform(2, n - 1) # Euler witness (or liar)
         x = Jacobi(a, n)
-        if x == 0 or power_mod(a, (n - 1) // 2, n) != x % n:
+        if x == 0 or power_mod(a, (n - 1) // 2, n) != (n + x) % n:
             return False
     return True
 
