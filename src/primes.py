@@ -125,7 +125,7 @@ def is_prime_MR(n, k=100):
     """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
-    if n == 3:
+    if n == 2 or n == 3:
         return True
     for _ in range (0, k):
         a = uniform(2, n - 1) # Euler witness (or liar)
@@ -159,7 +159,7 @@ def is_prime_SS(n, k=100):
     """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
-    if n == 3:
+    if n == 2 or n == 3:
         return True
     for _ in range(0, k):
         a = uniform(2, n - 1) # Euler witness (or liar)
