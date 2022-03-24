@@ -54,11 +54,11 @@ def power(a, d):
     """
     v = 1 # Value
     p = a # Powers of a
-    while d > 0: # 1 bit in the exponent
-        if is_odd(d):
+    while d > 0:
+        if is_odd(d): # 1 bit in the exponent
             v *= p
-        p *= p # Next power of two
-        d //= 2
+        p *= p  # Next power of two
+        d //= 2 # Shift exponent one bit
     return v
 
 def power_mod(a, d, n):
@@ -72,11 +72,11 @@ def power_mod(a, d, n):
     """
     v = 1 # Value
     p = a # Powers of a
-    while d > 0: # 1 bit in the exponent
-        if is_odd(d):
+    while d > 0:
+        if is_odd(d): # 1 bit in the exponent
             v = (v * p) % n
         p = p**2 % n # Next power of two
-        d //= 2
+        d //= 2      # Shuft exponent one bit
     return v
 
 def perfect_power(n):
