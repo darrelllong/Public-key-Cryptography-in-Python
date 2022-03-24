@@ -41,9 +41,9 @@ def generate_keys(n_bits, safe=True):
     low  = 2**(size - 1) # Assure the primes are each approximately half of the
     high = 2**size - 1   # bits in the modulus.
     f = primes.safe_prime if safe else primes.random_prime
-    p = f(low, high)
+    p = f(low, high) # Pick p
     q = f(low, high)
-    while p == q or p % (q - 1) == 0 or q % (p - q) == 0:
+    while p == q or p % (q - 1) == 0 or q % (p - q) == 0: # Choose an appropriate q
         q = f(low, high)
     n = p * q
     π = primes.inverse(p, q - 1)
