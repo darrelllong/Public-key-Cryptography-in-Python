@@ -52,11 +52,15 @@ def decode(r, s, t):
     return n.decode('utf-8')
 
 def main():
-    msg = input("?? ")
-    (a,b,c) = encode(msg)
-    print(f"a = {a}\nb = {b}\nc = {c}")
-    m = decode(a, b, c)
-    print(f"msg = {m}")
+    m = ""
+    try:
+        while not m in ["Quit", "quit", "Q", "q", "Exit", "exit"]:
+            m = input("?? ")
+            (a,b,c) = encode(m)
+            print(f"a = {a}\nb = {b}\nc = {c}")
+            print(f"msg = {decode(a, b, c)}")
+    except:
+        print("\nSo long!")
 
 if __name__ == '__main__':
     main()
