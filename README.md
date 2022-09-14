@@ -158,13 +158,18 @@ Be cautious of Carmichel pseudoprimes.
 }
 ```
 # Factoring
-Currently only Pollard's &#961; method is implemented.
+Currently only Pollard's &#961; method is implemented. It is useful
+for *medium*-sized composites, but not for the sizes used for
+public-key cryptography.
+The General Number Field Sieve is not really Python-friendly.
+
+If you want to factor numbers used for public keys, you should not be doing it in
+Python and should expect to rent time at a data center.
+
 ```
 @article{cite-key,
         author = {Pollard, J.  M. },
         date = {1975/09/01},
-        date-added = {2022-09-14 10:53:52 -0700},
-        date-modified = {2022-09-14 10:53:52 -0700},
         doi = {10.1007/BF01933667},
         id = {Pollard1975},
         isbn = {1572-9125},
@@ -175,7 +180,16 @@ Currently only Pollard's &#961; method is implemented.
         url = {https://doi.org/10.1007/BF01933667},
         volume = {15},
         year = {1975},
-        bdsk-url-1 = {https://doi.org/10.1007/BF01933667}}
+}
+
+@inproceedings{valenta2016factoring,
+  title={Factoring as a service},
+  author={Valenta, Luke and Cohney, Shaanan and Liao, Alex and Fried, Joshua and Bodduluri, Satya and Heninger, Nadia},
+  booktitle={International Conference on Financial Cryptography and Data Security},
+  pages={321--338},
+  year={2016},
+  organization={Springer}
+}
 ```
 # Utility Routines
 This implementation gives you the choice of using *safe primes* for *p* and *q*. This can be
