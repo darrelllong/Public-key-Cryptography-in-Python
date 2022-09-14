@@ -71,8 +71,8 @@ def rho(n):
     """
     Compute Pollard's ⍴
     """
-    b = uniform(1, n - 2)
-    s = uniform(0, n)
+    b = uniform(1, max(2, n - 2))
+    s = uniform(0, max(2, n))
     A, B, g = s, s, 1
     while g == 1:
         A = f(A, b, n)
@@ -100,6 +100,14 @@ def factor(n):
 # Interactive test
 
 from functools import reduce
+
+def naim():
+    n = 1
+    while n != 0:
+        n = int(input("?? "))
+        f = factor(n)
+        f.sort()
+        print(f"{n} = {f} = {reduce(lambda x, y: x * y, f)}")
 
 def main():
     n = 1
