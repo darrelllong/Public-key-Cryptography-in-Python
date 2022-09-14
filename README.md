@@ -221,5 +221,7 @@ This implementation provides these utilities (these provide the same functionali
 * `lcm(a, b)`
 * `inverse(a, n)`
 * `group_generator(n, p)`
+* `rho(n)`
+* `factor(n)`
 
 ![Cutting the Stone](https://darrelllong.github.io/images/Cutting_the_Stone_(Bosch).jpg)
