@@ -144,13 +144,7 @@ While it is impractical for large integers, one could implement the polynomial-t
   publisher={Princeton University and the Institute for Advanced Study}
 }
 ```
-
-Numbers such as this (a Carmichael number):
-```
-29674495668685510550154174642905332730771991799853043350995075531276838753171770199594238596428121188033664754218345562493168782883
-```
-will pass both Miller-Rabin and Solovay Strassen.
-
+Be cautious of Carmichel pseudoprimes.
 ```
 @article{arnault1995constructing,
   title={Constructing Carmichael numbers which are strong pseudoprimes to several bases},
@@ -162,6 +156,26 @@ will pass both Miller-Rabin and Solovay Strassen.
   year={1995},
   publisher={Elsevier}
 }
+```
+# Factoring
+Currently only Pollard's &#961; method is implemented.
+```
+@article{cite-key,
+        author = {Pollard, J.  M. },
+        date = {1975/09/01},
+        date-added = {2022-09-14 10:53:52 -0700},
+        date-modified = {2022-09-14 10:53:52 -0700},
+        doi = {10.1007/BF01933667},
+        id = {Pollard1975},
+        isbn = {1572-9125},
+        journal = {BIT Numerical Mathematics},
+        number = {3},
+        pages = {331--334},
+        title = {A monte carlo method for factorization},
+        url = {https://doi.org/10.1007/BF01933667},
+        volume = {15},
+        year = {1975},
+        bdsk-url-1 = {https://doi.org/10.1007/BF01933667}}
 ```
 # Utility Routines
 This implementation gives you the choice of using *safe primes* for *p* and *q*. This can be
