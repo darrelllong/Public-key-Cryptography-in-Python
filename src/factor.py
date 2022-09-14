@@ -21,7 +21,7 @@ def rho(n):
     return g
 
 def factor(n):
-    if primes.is_prime(n):
+    if n == 1 or primes.is_prime(n):
         return [n]
     else:
         f = []
