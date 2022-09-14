@@ -21,25 +21,36 @@ def rho(n):
     return g
 
 def factor(n):
-    f = []
-    q = [n]
-    while len(q) > 0:
-        x = q.pop()
-        r = rho(x)
-        y = x // r
-        if primes.is_prime(r):
-            f.append(r)
-        elif r > 1:
-            q.append(r)
-        if primes.is_prime(y):
-            f.append(y)
-        elif y > 1:
-            q.append(y)
-    return f
+    if primes.is_prime(n):
+        return [n]
+    else:
+        f = []
+        q = [n]
+        while len(q) > 0:
+            x = q.pop()
+            r = rho(x)
+            y = x // r
+            if primes.is_prime(r):
+                f.append(r)
+            elif r > 1:
+                q.append(r)
+            if primes.is_prime(y):
+                f.append(y)
+            elif y > 1:
+                q.append(y)
+        return f
 
 # Interactive test
 
 from functools import reduce
+
+def naim():
+    n = 1
+    while n != 0:
+        n = int(input("?? "))
+        f = factor(n)
+        f.sort()
+        print(f"{n} = {f} = {reduce(lambda x, y: x * y, f)}")
 
 def main():
     n = 1
