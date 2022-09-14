@@ -168,9 +168,9 @@ def is_prime_SS(n, k=100):
             return False
     return True
 
-# Default is to test using both methods.
+# Default is to use Miller-Rabin.
 
-def is_prime(n, k=100): return is_prime_SS(n, k) and is_prime_MR(n, k)
+def is_prime(n, k=100): return is_prime_MR(n, k)
 
 # Routines to generate primes
 
