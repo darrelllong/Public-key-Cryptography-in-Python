@@ -123,10 +123,9 @@ def witness(a, n):
 
 from random import randrange as uniform
 
-def is_prime_MR(n, k=100, a=None):
+def is_prime_MR(n, k=100):
     """
     Miller-Rabin probabilistic primality test of n with confidence k.
-    Optionally, one can set the base a, or choose randomly.
     """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
@@ -174,7 +173,7 @@ def is_prime_SS(n, k=100):
             return False
     return True
 
-def choose_selfridge(n):
+def choose_Selfridge(n):
     """
     Chooses Selfridge's parameters for the Lucas primality test.
     Returns: (D, P, Q)
@@ -226,13 +225,16 @@ def is_prime_LS(n):
     if n == 2 or n == 3:
         return True
 
-    (d, p, q) = choose_selfridge(n)
+    (d, p, q) = choose_Selfridge(n)
     # print(d, p, q)
     (u, _) = compute_U(n + 1, n, p, d)
 
     return u == 0
 
 def is_prime_F(n):
+    """
+    Fermat (Miller-Rabin with fixed base) test base a = 2.
+    """"
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
     if n == 2 or n == 3:
