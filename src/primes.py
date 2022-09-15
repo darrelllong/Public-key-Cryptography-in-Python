@@ -99,6 +99,10 @@ def perfect_power(n):
                 return (middle, b)
     return (None, None)
 
+def is_perfect_power(n):
+    (a, b) = perfect_power(n)
+    return a is not None and b is not None
+
 def witness(a, n):
     """
     The witness loop of the Miller-Rabin probabilistic primality test.
@@ -119,16 +123,22 @@ def witness(a, n):
 
 from random import randrange as uniform
 
-def is_prime_MR(n, k=100):
+def is_prime_MR(n, k=100, a=None):
     """
     Miller-Rabin probabilistic primality test of n with confidence k.
+    Optionally, one can set the base a, or choose randomly.
     """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
     if n == 2 or n == 3:
         return True
+
+    if a is not None: # If a is constant, there is no reason to run multiple tests.
+        k = 1
+
     for _ in range (0, k):
-        a = uniform(2, n - 1) # Euler witness (or liar)
+        if a is None:
+            a = uniform(2, n - 1) # Euler witness (or liar)
         if witness(a, n):
             return False
     return True
@@ -167,6 +177,78 @@ def is_prime_SS(n, k=100):
         if x == 0 or power_mod(a, (n - 1) // 2, n) != (n + x) % n:
             return False
     return True
+
+def choose_selfridge(n):
+    """
+    Chooses Selfridge's parameters for the Lucas primality test.
+    Returns: (D, P, Q)
+    """
+    d = 5
+    s = 1
+    while True:
+        D = d * s
+        if Jacobi(d, n) == -1: # This is guaranteed to occur if it is not square.
+            return (d, 1, (1 - d) / 4)
+
+        d = d + 2
+        s *= -1
+
+def halve(x, n):
+    """
+    If x is even, x is halved directly. If x is odd, then n is added to x.
+    n is assumed to be odd since it is a candidate prime,
+    so the result will be even and can be halved. This does not change the answer mod n.
+    """
+    if x % 2 == 1:
+        x += n
+    return x / 2
+
+def compute_U(i, n, p, d):
+    """
+    Computes the i-th element of the Lucas sequence with parameters p and d (q = (1 - d) / 4) mod n.
+    """
+
+    if i == 1:
+        return (1, p)
+    elif i % 2 == 0:
+        (U_k, V_k) = compute_U(i // 2, n, p, d)
+        U_2k = U_k * V_k
+        V_2k = (V_k * V_k + d * U_k * U_k) / 2
+        return (U_2k % n, V_2k % n)
+    else:
+        (U_2k, V_2k) = compute_U(i - 1, n, p, d)
+        U_2k1 = halve(p * U_2k + V_2k, n)
+        V_2k1 = halve(d * U_2k + p * V_2k, n)
+        return (U_2k1 % n, V_2k1 % n)
+
+def is_prime_LS(n):
+    """
+    Checks if an integer is a standard Lucas probable prime.
+    """
+    if n < 2 or (n != 2 and n % 2 == 0) or is_perfect_power(n):
+        return False
+    if n == 2 or n == 3:
+        return True
+
+    (d, p, _) = choose_selfridge(n)
+    (u, _) = compute_U(n + 1, n, p, d)
+
+    if u == 0:
+        return True
+    else:
+        return False
+
+def is_prime_BPSW(n):
+    """
+    Runs a Fermat (Miller-Rabin with fixed base) test base 2
+    and a Lucas-Selfridge test.
+    It is conjectured that pseudoprimes under both tests are significantly different
+    so if a number passes both it is very likely to be truly prime.
+    """
+    if is_prime_MR(n, a=2) and is_prime_LS(n):
+        return True
+    else:
+        return False
 
 # Default is to use Miller-Rabin.
 
@@ -289,6 +371,7 @@ def main():
             g = int(input("?? "))
             mr = is_prime_MR(g)
             ss = is_prime_SS(g)
+            bpsw = is_prime_BPSW(g)
             if g == 2 or is_odd(g) and mr and ss:
                 print(f"{g} is probably prime.")
             else:
@@ -297,6 +380,8 @@ def main():
                     print("Miller-Rabin disagrees")
                 if ss:
                     print("Solovay-Strassen disagrees")
+                if bpsw:
+                    print("BPSW disagrees")
             (a, b) = perfect_power(g)
             if (a, b) != (None, None):
                 print(f"{g} = {a}^{b} is a perfect power.")
