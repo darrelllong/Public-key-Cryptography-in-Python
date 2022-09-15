@@ -90,4 +90,4 @@ def main():
         print(f"\nBye!")
 
 if __name__ == '__main__':
-    main()
+    naim()

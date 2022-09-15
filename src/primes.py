@@ -235,21 +235,21 @@ def is_prime_LS(n):
 
     return u == 0
 
-def is_prime_BPSW(n):
+def is_prime_BPSW(n, k=100):
     """
     Runs a Fermat (Miller-Rabin with fixed base) test base 2 and a
     Lucas-Selfridge test.  It is conjectured that pseudoprimes under
     both tests are significantly different so if a number passes
     both it is very likely to be truly prime.
     """
-    if is_prime_MR(n, a=2) and is_prime_LS(n):
+    if is_prime_MR(n, k, a=2) and is_prime_LS(n):
         return True
     else:
         return False
 
 # Default is to use Miller-Rabin.
 
-def is_prime(n, k=100): return is_prime_BPSW(n, k)
+def is_prime(n, k=100): return is_prime_MR(n, k)
 
 # Routines to generate primes
 
