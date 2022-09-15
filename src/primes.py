@@ -226,7 +226,6 @@ def is_prime_LS(n):
         return True
 
     (d, p, q) = choose_Selfridge(n)
-    # print(d, p, q)
     (u, _) = compute_U(n + 1, n, p, d)
 
     return u == 0
@@ -234,7 +233,7 @@ def is_prime_LS(n):
 def is_prime_F(n):
     """
     Fermat (Miller-Rabin with fixed base) test base a = 2.
-    """"
+    """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
     if n == 2 or n == 3:
