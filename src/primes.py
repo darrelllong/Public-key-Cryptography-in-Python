@@ -133,12 +133,8 @@ def is_prime_MR(n, k=100, a=None):
     if n == 2 or n == 3:
         return True
 
-    if a is not None: # If a is constant, there is no reason to run multiple tests.
-        k = 1
-
     for _ in range (0, k):
-        if a is None:
-            a = uniform(2, n - 1) # Euler witness (or liar)
+        a = uniform(2, n - 1) # Euler witness (or liar)
         if witness(a, n):
             return False
     return True
@@ -187,8 +183,8 @@ def choose_selfridge(n):
     s = 1
     while True:
         D = d * s
-        if Jacobi(d, n) == -1: # This is guaranteed to occur if it is not square.
-            return (d, 1, (1 - d) / 4)
+        if Jacobi(D, n) == -1: # This is guaranteed to occur if it is not square.
+            return (D, 1, (1 - D) // 4)
 
         d = d + 2
         s *= -1
@@ -213,7 +209,7 @@ def compute_U(i, n, p, d):
     elif i % 2 == 0:
         (U_k, V_k) = compute_U(i // 2, n, p, d)
         U_2k = U_k * V_k
-        V_2k = (V_k * V_k + d * U_k * U_k) / 2
+        V_2k = halve(V_k * V_k + d * U_k * U_k, n)
         return (U_2k % n, V_2k % n)
     else:
         (U_2k, V_2k) = compute_U(i - 1, n, p, d)
@@ -230,19 +226,30 @@ def is_prime_LS(n):
     if n == 2 or n == 3:
         return True
 
-    (d, p, _) = choose_selfridge(n)
+    (d, p, q) = choose_selfridge(n)
+    # print(d, p, q)
     (u, _) = compute_U(n + 1, n, p, d)
 
     return u == 0
 
+def is_prime_F(n):
+    if n < 2 or (n != 2 and n % 2 == 0):
+        return False
+    if n == 2 or n == 3:
+        return True
+
+    if witness(2, n):
+        return False
+    return True
+
 def is_prime_BPSW(n, k=100):
     """
     Runs a Fermat (Miller-Rabin with fixed base) test base 2 and a
-    Lucas-Selfridge test.  It is conjectured that pseudoprimes under
+    Lucas-Selfridge test. It is conjectured that pseudoprimes under
     both tests are significantly different so if a number passes
     both it is very likely to be truly prime.
     """
-    if is_prime_MR(n, k, a=2) and is_prime_LS(n):
+    if is_prime_F(n) and is_prime_LS(n):
         return True
     else:
         return False
@@ -369,7 +376,7 @@ def main():
             mr = is_prime_MR(g)
             ss = is_prime_SS(g)
             bpsw = is_prime_BPSW(g)
-            if g == 2 or is_odd(g) and mr and ss:
+            if g == 2 or is_odd(g) and mr and ss and bpsw:
                 print(f"{g} is probably prime.")
             else:
                 print(f"{g} is composite.")

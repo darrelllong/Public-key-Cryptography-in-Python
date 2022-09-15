@@ -108,6 +108,7 @@ by using several independently chosen values of *a*.
 Implemented here are:
 * Solovay-Strassen
 * Miller-Rabin
+* Baillie-Pomerance-Selfridge-Wagstaff
 
 ```
 @article{solovay1977fast,
@@ -130,6 +131,26 @@ Implemented here are:
   pages={128-138},
   year={1980},
   publisher={Elsevier}
+}
+
+@article{baillie1980lucas,
+  title={Lucas pseudoprimes},
+  author={Baillie, Robert and Wagstaff, Samuel S},
+  journal={Mathematics of Computation},
+  volume={35},
+  number={152},
+  pages={1391--1417},
+  year={1980}
+}
+
+@article{pomerance1980pseudoprimes,
+  title={The pseudoprimes to 25⋅ 10⁹},
+  author={Pomerance, Carl and Selfridge, John L and Wagstaff, Samuel S},
+  journal={Mathematics of Computation},
+  volume={35},
+  number={151},
+  pages={1003--1026},
+  year={1980}
 }
 ```
 While it is impractical for large integers, one could implement the polynomial-time AKS algorithm.
