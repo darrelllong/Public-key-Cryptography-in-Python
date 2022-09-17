@@ -33,14 +33,14 @@ def is_odd(n):  return n & 0x1 == 1
 
 def lg(n):
     """
-    Compute log(n)
-               2
+    Compute log(n), returns -1 (invalid) for log(0)
+               2                                2
     """
-    k = 0
+    k = -1
     n = abs(n)
     while n > 0:
         n //= 2
-        k += 1
+        k  += 1
     return k
 
 def power(a, d):
@@ -84,7 +84,7 @@ def perfect_power(n):
                            b                                                    2
     Determine whether n = a using binary search, should require O(lg n (lg lg n) ) time.
     """
-    logN = lg(n) + 1
+    logN = lg(n)
     for b in range(2, logN):
         low  = 2
         high = 1 << logN // b + 1
