@@ -83,7 +83,7 @@ def main():
     n = 1
     try:
         while n != 0:
-            n = int(input("?? "))
+            n = eval(input("?? "))
             f = factor(n)
             f.sort()
             print(f"{n} = {f} = {reduce(lambda x, y: x * y, f)}")
