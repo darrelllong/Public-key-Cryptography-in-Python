@@ -27,7 +27,8 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import primes
+from primes import is_prime as is_prime
+from primes import gcd as gcd
 
 from random import randrange as uniform
 
@@ -45,11 +46,11 @@ def rho(n):
     while g == 1:
         A = f(A, b, n)
         B = f(f(B, b, n), b, n)
-        g = primes.gcd(A - B, n)
+        g = gcd(A - B, n)
     return g
 
 def factor(n):
-    if n == 1 or primes.is_prime(n):
+    if n == 1 or is_prime(n):
         return [n]
     else:
         f = []
@@ -58,11 +59,11 @@ def factor(n):
             x = q.pop()
             r = rho(x)
             y = x // r
-            if primes.is_prime(r):
+            if is_prime(r):
                 f.append(r)
             elif r > 1:
                 q.append(r)
-            if primes.is_prime(y):
+            if is_prime(y):
                 f.append(y)
             elif y > 1:
                 q.append(y)
