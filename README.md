@@ -144,7 +144,7 @@ Implemented here are:
 }
 
 @article{pomerance1980pseudoprimes,
-  title={The pseudoprimes to 25⋅ 10⁹},
+  title={The pseudoprimes to 25×10⁹},
   author={Pomerance, Carl and Selfridge, John L and Wagstaff, Samuel S},
   journal={Mathematics of Computation},
   volume={35},
@@ -189,7 +189,7 @@ Python and should expect to rent time at a data center.
 
 ```
 @article{cite-key,
-        author = {Pollard, J.  M. },
+        author = {Pollard, J.  M.},
         date = {1975/09/01},
         doi = {10.1007/BF01933667},
         id = {Pollard1975},
@@ -231,9 +231,12 @@ This implementation provides these utilities (these provide the same functionali
 * `power(a, e)`
 * `power_mod(a, e, n)`
 * `perfect_power(n)`
-* `is_prime_MR(n, k)`
-* `is_prime_SS(n, k)`
-* `is_prime(n, k)` = `is_prime_MR(n, k)` ∧ `is_prime_SS(n, k)`
+* `is_prime_MR(n, k)` &mdash; Miller-Rabin
+* `is_prime_SS(n, k)` &mdash; Solovay-Strassen
+* `is_prime_LS(n)` &mdash; Lucas (probable prime)
+* `is_prime_F(n)` &mdash; Fermat
+* `is_prime_BPSW(n)` &mdash; Baillie-Pomerance-Selfridge-Wagstaff
+* `is_prime(n, k)` = `is_prime_MR(n, k)`
 * `random_prime(low, high, k)`
 * `safe_prime(low, high, k)`
 * `rabin_prime(low, high safety)`
