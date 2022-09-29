@@ -239,13 +239,13 @@ This implementation provides these utilities (these provide the same functionali
 * `is_prime(n, k)` = `is_prime_MR(n, k)`
 * `random_prime(low, high, k)`
 * `safe_prime(low, high, k)`
-* `rabin_prime(low, high safety)`
+* `rabin_prime(low, high)`
 * `extended_GCD(a, b)`
 * `gcd(a, b)`
 * `lcm(a, b)`
 * `inverse(a, n)`
 * `group_generator(n, p)`
 * `rho(n)`
-* `factor(n)`
+* `factor(n)` &mdash; using Pollard's &#961; function
 
 ![Cutting the Stone](https://darrelllong.github.io/images/Cutting_the_Stone_(Bosch).jpg)
