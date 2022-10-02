@@ -50,7 +50,7 @@ def encrypt(m, key):
     n, 𝜻 = key
     r = uniform(1, n - 1)
     f = primes.power_mod
-    return (f(𝜻, m, n * n) * f(r, n, n * n)) % n * n
+    return (f(𝜻, m, n * n) * f(r, n, n * n)) % (n * n)
 
 def decrypt(c, key):
     n, 𝝀, u = key
@@ -79,10 +79,13 @@ def main():
     print(f"prv = {prv}")
 
     m = ""
-    while not m in ["Quit", "quit", "Q", "q", "Exit", "exit"]:
-        m = input("?? ")
-        c = encrypt(primes.encode(m), pub); print(f"En[{m}] = {c}")
-        t = primes.decode(decrypt(c, prv)); print(f"De[{c}] = {t}")
+    try:
+        while not m in ["Quit", "quit", "Q", "q", "Exit", "exit"]:
+            m = input("?? ")
+            c = encrypt(primes.encode(m), pub); print(f"En[{m}] = {c}")
+            t = primes.decode(decrypt(c, prv)); print(f"De[{c}] = {t}")
+    except:
+        print("\nSo long!")
 
 if __name__ == '__main__':
     main()
