@@ -35,7 +35,7 @@ import primes
 
 # Generate a key (e, d, n) of a specified bit-length with optional safe primes
 
-def generate_keys(bits, safe=False):
+def generate_keys(nBits, safe=False):
     """
     Generates the RSA key pairs: (e, n) and (d, n)
     You have the option of using safe primes, though this is probably unnecessary.
@@ -49,7 +49,7 @@ def generate_keys(bits, safe=False):
 
     Return the triple (e, d, n)
     """
-    size = bits // 2
+    size = nBits // 2
     low  = 2**(size - 1) # Assure the primes are each approximately half of the
     high = 2**size - 1   # bits in the modulus.
     f = primes.safe_prime if safe else primes.random_prime
@@ -59,12 +59,12 @@ def generate_keys(bits, safe=False):
         q = f(low, high)
     𝝺 = primes.lcm(p - 1, q - 1) # Carmichael 𝝺(n) = lcm(𝝺(p), 𝝺(q)) = lcm(p - 1, q - 1)
     k = 16
-    e = 2**k + 1        # Default public exponent
-    while primes.gcd(e, 𝝺) != 1: # Happens only if we are very unlucky
+    e = 2**k + 1             # Default public exponent
+    while primes.gcd(e, 𝝺) != 1: # Happens only if we are very, very unlucky
         k += 1
         e = 2**k + 1
-    d = primes.inverse(e, 𝝺) # The private key
-    n = p * q         # The modulus
+    d = primes.inverse(e, 𝝺) # The private exponent
+    n = p * q                # The modulus
     return (e, d, n)
 
 def encrypt(m, e, n): return primes.power_mod(m, e, n)

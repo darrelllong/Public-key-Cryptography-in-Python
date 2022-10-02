@@ -34,8 +34,7 @@ from zlib   import crc32
 
 def generate_keys(n_bits, safe=True):
     """
-    Generate and return a key with n_bits of strength.
-    Default is to use safe random numbers.
+    Generate and return a key with n_bits of strength.  Default is to use safe primes.
     """
     x = n_bits // 2 + 32 // 2 # Make room for the tag (two pieces of 16 bits)
     p = primes.rabin_prime(2**x, 2**(x + 1) - 1, safe)

@@ -34,16 +34,15 @@ from zlib   import crc32
 
 def generate_keys(n_bits, safe=True):
     """
-    Generate and return a key with n_bits of strength.
-    Default is to use safe random numbers.
+    Generate and return a key with n_bits of strength.  Default is to use safe primes.
     """
     size = n_bits // 2
     low  = 2**(size - 1) # Assure the primes are each approximately half of the
     high = 2**size - 1   # bits in the modulus.
     f = primes.safe_prime if safe else primes.random_prime
     p = f(low, high) # Pick p
-    q = f(low, high)
-    while p == q or p % (q - 1) == 0 or q % (p - q) == 0: # Choose an appropriate q
+    q = f(low, high) # Pick a candidate q
+    while p == q or p % (q - 1) == 0 or q % (p - q) == 0: # Is it an appropriate q?
         q = f(low, high)
     n = p * q
     π = primes.inverse(p, q - 1)
