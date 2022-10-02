@@ -89,6 +89,8 @@ def main():
 
     print(f"pub = {pub}")
     print(f"prv = {prv}")
+    n = pub[1]
+    print(f"lg(n) = {primes.lg(n)}")
 
     m = ""
     try:
