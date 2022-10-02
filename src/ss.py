@@ -30,14 +30,13 @@
 import primes
 
 from random import randrange as uniform
-from zlib   import crc32
 
-def generate_keys(n_bits, safe=True):
+def generate_keys(nBits, safe=False):
     """
     Generate and return a key with n_bits of strength.
     Default is to use safe random numbers.
     """
-    size = n_bits // 2
+    size = nBits // 2
     low  = 2**(size - 1) # Assure the primes are each approximately half of the
     high = 2**size - 1   # bits in the modulus.
     f = primes.safe_prime if safe else primes.random_prime
@@ -61,7 +60,7 @@ def decrypt(c, key):
     """
     Write about the algorithm
     """
-    (d, 𝛄) = key
+    d, 𝛄 = key
     return primes.power_mod(c, d, 𝛄)
 
 import sys, getopt

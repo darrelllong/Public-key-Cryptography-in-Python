@@ -28,15 +28,18 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import primes
+
 from random import randrange as uniform
 
 def L(x, n): return (x - 1) // n
 
-def generate_keys(k, safe = False):
+def generate_keys(nBits, safe = False):
+    k = nBits // 2
     lo = 2**(k - 1) # Assure the primes are approximately equal in size.
     hi = 2**k - 1
     f = primes.safe_prime if safe else primes.random_prime
     g = 0
+    # Should only loop once, but we have to be certain.
     while g != 1:
         p, q = f(lo, hi), f(lo, hi)
         n = p * q
@@ -73,7 +76,7 @@ def main():
     except:
         quit("We needed a positive integer!")
 
-    prv, pub = generate_keys(bits // 2, safe) # Split the key
+    prv, pub = generate_keys(bits, safe)
 
     print(f"pub = {pub}")
     print(f"prv = {prv}")
