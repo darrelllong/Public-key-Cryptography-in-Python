@@ -33,18 +33,18 @@ from random import randrange as uniform
 def L(x, n): return (x - 1) // n
 
 def generate_keys(k, safe = False):
+    lo = 2**(k - 1) # Assure the primes are approximately equal in size.
+    hi = 2**k - 1
     f = primes.safe_prime if safe else primes.random_prime
-    low  = 2**(k - 1) # Assure the primes are each approximately half of the
-    high = 2**k - 1   # bits in the modulus.
     g = 0
     while g != 1:
-        p, q = f(low, high), f(low, high)
+        p, q = f(lo, hi), f(lo, hi)
         n = p * q
         g = primes.gcd(n, (p - 1) * (q - 1))
     𝝀 = primes.lcm(p - 1, q - 1)
     𝜻 = uniform(2, n * n)
     u = primes.inverse(L(primes.power_mod(𝜻, 𝝀, n * n), n), n)
-    return ((n, 𝜻), (n, 𝝀, u))
+    return ((n, 𝝀, u), (n, 𝜻))
 
 def encrypt(m, key):
     n, 𝜻 = key
@@ -73,7 +73,7 @@ def main():
     except:
         quit("We needed a positive integer!")
 
-    pub, prv = generate_keys(bits, safe)
+    prv, pub = generate_keys(bits, safe)
 
     print(f"pub = {pub}")
     print(f"prv = {prv}")

@@ -51,15 +51,15 @@ def generate_keys(k, safe = True):
     return ((p, a), (p, r, b))
 
 def encrypt(m, key):
-    (p, r, b) = key
+    p, r, b = key
     k = uniform(1, p - 2)
     𝛾 = primes.power_mod(r, k, p)
     𝛿 = (m * primes.power_mod(b, k, p)) % p
     return (𝛾, 𝛿)
 
 def decrypt(m, key):
-    (p, a) = key
-    (𝛾, 𝛿) = m
+    p, a = key
+    𝛾, 𝛿 = m
     return (primes.power_mod(𝛾, p - 1 - a, p) * 𝛿) % p
 
 import sys, getopt
