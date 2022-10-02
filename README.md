@@ -6,6 +6,7 @@ Primality and public-key cryptography routines in Python
 * Rabin
 * El Gamal
 * Schmidt-Samoa
+* Paillier
 
 Originally written for the students at the University of California, Santa Cruz.
 
@@ -75,6 +76,18 @@ The Schmidt-Samoa public-key system (related to RSA and Rabin).
   pages={79-94},
   year={2006},
   publisher={Elsevier}
+}
+```
+
+The scheme by Pascal Paillier using residuosity is interesting since it is partially homomorphic.
+```
+@inproceedings{paillier1999public,
+  title={Public-key cryptosystems based on composite degree residuosity classes},
+  author={Paillier, Pascal},
+  booktitle={International conference on the theory and applications of cryptographic techniques},
+  pages={223--238},
+  year={1999},
+  organization={Springer}
 }
 ```
 
