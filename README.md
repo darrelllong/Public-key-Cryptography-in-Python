@@ -79,7 +79,8 @@ The Schmidt-Samoa public-key system (related to RSA and Rabin).
 }
 ```
 
-The scheme by Pascal Paillier using residuosity is interesting since it is partially homomorphic.
+The scheme by Pascal Paillier using residuosity classes
+is interesting since it is partially homomorphic.
 ```
 @inproceedings{paillier1999public,
   title={Public-key cryptosystems based on composite degree residuosity classes},
