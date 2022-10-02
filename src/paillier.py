@@ -34,6 +34,9 @@ from random import randrange as uniform
 def L(x, n): return (x - 1) // n
 
 def generate_keys(nBits, safe = False):
+    """
+    Write about the math
+    """
     k = nBits // 2
     lo = 2**(k - 1) # Assure the primes are approximately equal in size.
     hi = 2**k - 1
@@ -50,12 +53,18 @@ def generate_keys(nBits, safe = False):
     return ((n, 𝝀, u), (n, 𝜻))
 
 def encrypt(m, key):
+    """
+    Write about the math
+    """
     n, 𝜻 = key
     r = uniform(1, n - 1)
     f = primes.power_mod
     return (f(𝜻, m, n * n) * f(r, n, n * n)) % (n * n)
 
 def decrypt(c, key):
+    """
+    Write about the math
+    """
     n, 𝝀, u = key
     f = primes.power_mod
     return (L(f(c, 𝝀, n * n), n) * u) % n

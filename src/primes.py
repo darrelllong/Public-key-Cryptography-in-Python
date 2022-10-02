@@ -100,7 +100,7 @@ def perfect_power(n):
     return (None, None)
 
 def is_perfect_power(n):
-    (a, b) = perfect_power(n)
+    a, b = perfect_power(n)
     return a is not None and b is not None
 
 def witness(a, n):
@@ -190,9 +190,9 @@ def choose_Selfridge(n):
 
 def halve(x, n):
     """
-    If x is even, x is halved directly. If x is odd, then n is added to x.
-    n is assumed to be odd since it is a candidate prime,
-    so the result will be even and can be halved. This does not change the answer mod n.
+    If x is even, x is halved directly. If x is odd, then n is added to x.  n is 
+    assumed to be odd since it is a candidate prime, so the result will be even 
+    and can be halved. This does not change the answer mod n.
     """
     if x % 2 == 1:
         x += n
