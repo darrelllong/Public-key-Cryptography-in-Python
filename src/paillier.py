@@ -73,7 +73,7 @@ def main():
     except:
         quit("We needed a positive integer!")
 
-    prv, pub = generate_keys(bits, safe)
+    prv, pub = generate_keys(bits // 2, safe) # Split the key
 
     print(f"pub = {pub}")
     print(f"prv = {prv}")
