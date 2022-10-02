@@ -250,7 +250,7 @@ This implementation provides these utilities (these provide the same functionali
 * `is_prime_LS(n)` &mdash; Lucas (probable prime)
 * `is_prime_F(n)` &mdash; Fermat
 * `is_prime_BPSW(n)` &mdash; Baillie-Pomerance-Selfridge-Wagstaff
-* `is_prime(n, k)` = `is_prime_MR(n, k)`
+* `is_prime(n, k) = is_prime_MR(n, k)` (by default)
 * `random_prime(low, high, k)`
 * `safe_prime(low, high, k)`
 * `rabin_prime(low, high)`
