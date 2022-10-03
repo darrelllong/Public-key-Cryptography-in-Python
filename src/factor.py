@@ -71,14 +71,6 @@ def factor(n):
 
 # Interactive test
 
-def naim(): # Without the exception handler for debugging purposes
-    n = 1
-    while n != 0:
-        n = int(input("?? "))
-        f = factor(n)
-        f.sort()
-        print(f"{n} = {f} = {reduce(lambda x, y: x * y, f)}")
-
 def main():
     n = 1
     try:
@@ -90,5 +82,4 @@ def main():
     except Exception as e:
         print(f"\nBye!")
 
-if __name__ == '__main__':
-    main()
+if __name__ == '__main__': main()
