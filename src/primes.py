@@ -370,12 +370,12 @@ def decode(n):
 # Interactive test
 
 def main():
-    g = 1
+    g = encode("Try harder!")
     try:
         while g != 0:
             g = int(input("?? "))
-            mr = is_prime_MR(g)
-            ss = is_prime_SS(g)
+            mr   = is_prime_MR(g)
+            ss   = is_prime_SS(g)
             bpsw = is_prime_BPSW(g)
             if g == 2 or is_odd(g) and mr and ss and bpsw:
                 print(f"{g} is probably prime.")
