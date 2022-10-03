@@ -99,9 +99,7 @@ def perfect_power(n):
                 return (middle, b)
     return (None, None)
 
-def is_perfect_power(n):
-    a, b = perfect_power(n)
-    return a is not None and b is not None
+def is_perfect_power(n): return perfect_power(n) != (None, None)
 
 def witness(a, n):
     """
@@ -245,15 +243,11 @@ def is_prime_F(n):
 
 def is_prime_BPSW(n, k=100):
     """
-    Runs a Fermat (Miller-Rabin with fixed base) test base 2 and a
-    Lucas-Selfridge test. It is conjectured that pseudoprimes under
-    both tests are significantly different so if a number passes
-    both it is very likely to be truly prime.
+    Runs a Fermat (Miller-Rabin with fixed base) test base 2 and a Lucas-Selfridge test.
+    It is conjectured that pseudoprimes under both tests are significantly different so 
+    if a number passes both it is very likely to be truly prime.
     """
-    if is_prime_F(n) and is_prime_LS(n):
-        return True
-    else:
-        return False
+    return is_prime_F(n) and is_prime_LS(n)
 
 # Default is to use Miller-Rabin.
 
@@ -270,9 +264,6 @@ def random_prime(low, high, confidence=100):
         guess = uniform(low, high) # Half will be even, the rest have Pr[prime] ≈ 1/log(N).
     return guess
 
-# Safe primes follow Sophie Germain primes: If prime(p) ∧ prime(2p + 1) then
-# 2p + 1 is a safe prime.
-
 def safe_prime(low, high, confidence=100):
     """
     Generate and return a safe prime in the range [low, high].
@@ -284,8 +275,6 @@ def safe_prime(low, high, confidence=100):
     while not is_prime(2 * p + 1, confidence):
         p = random_prime(low, high)
     return 2 * p + 1
-
-# Rabin prime is a p ≢ 3 (mod 4)
 
 def rabin_prime(low, high, safe=True):
     """
@@ -393,5 +382,4 @@ def main():
     except Exception as e:
         print("\nSo long!")
 
-if __name__ == '__main__':
-    main()
+if __name__ == '__main__': main()
