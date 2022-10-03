@@ -35,7 +35,7 @@ import primes
 
 # Generate a key (e, d, n) of a specified bit-length with optional safe primes
 
-def generate_keys(nBits, safe=False):
+def generate_keys(nBits, safe=True):
     """
     Generates the RSA key pairs: (e, n) and (d, n)
     You have the option of using safe primes, though this is probably unnecessary.
@@ -159,5 +159,4 @@ def main():
     except:
         print("\nSo long!")
 
-if __name__ == '__main__':
-    main()
+if __name__ == '__main__': main()

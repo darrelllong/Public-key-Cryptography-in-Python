@@ -32,11 +32,11 @@ import primes
 from random import randrange as uniform
 from zlib   import crc32
 
-def generate_keys(n_bits, safe=True):
+def generate_keys(nBits, safe=True):
     """
-    Generate and return a key with n_bits of strength.  Default is to use safe primes.
+    Generate and return a key with nBits of strength.  Default is to use safe primes.
     """
-    size = n_bits // 2
+    size = nBits // 2
     low  = 2**(size - 1) # Assure the primes are each approximately half of the
     high = 2**size - 1   # bits in the modulus.
     f = primes.safe_prime if safe else primes.random_prime
@@ -92,5 +92,4 @@ def main():
     except:
         print("\nSo long!")
 
-if __name__ == '__main__':
-    main()
+if __name__ == '__main__': main()

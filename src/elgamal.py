@@ -28,19 +28,21 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import primes
+
 from random import randrange as uniform
 
 # Generate an efficient description of a cyclic group G of order p, with generator r.
 #
 # Choose a random integer a ∊ {(p – 1)/2, ..., p − 1}
 #
-# Compute b = r^a
+#              a
+# Compute b = r
 #
 # The public key consists of the values (p, r, b)
 #
 # The private key consists of the values (p, a)
 
-def generate_keys(k, safe = True):
+def generate_keys(k, safe=True):
     low  = 2**(k - 1)
     high = 2**k - 1
     f = primes.safe_prime if safe else primes.random_prime
@@ -92,5 +94,4 @@ def main():
     except:
         print("\nSo long!")
 
-if __name__ == '__main__':
-    main()
+if __name__ == '__main__': main()

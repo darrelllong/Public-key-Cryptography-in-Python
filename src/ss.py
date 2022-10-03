@@ -31,7 +31,7 @@ import primes
 
 from random import randrange as uniform
 
-def generate_keys(nBits, safe=False):
+def generate_keys(nBits, safe=True):
     """
     Generate and return a key with n_bits of strength.
     Default is to use safe random numbers.
@@ -94,5 +94,4 @@ def main():
     except:
         print("\nSo long!")
 
-if __name__ == '__main__':
-    main()
+if __name__ == '__main__': main()

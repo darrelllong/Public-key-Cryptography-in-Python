@@ -33,7 +33,7 @@ from random import randrange as uniform
 
 def L(x, n): return (x - 1) // n
 
-def generate_keys(nBits, safe = False):
+def generate_keys(nBits, safe=True):
     """
     Write about the math
     """
@@ -101,5 +101,4 @@ def main():
     except:
         print("\nSo long!")
 
-if __name__ == '__main__':
-    main()
+if __name__ == '__main__': main()
