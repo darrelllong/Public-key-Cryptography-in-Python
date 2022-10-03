@@ -389,7 +389,7 @@ def main():
                     print("BPSW disagrees")
             (a, b) = perfect_power(g)
             if (a, b) != (None, None):
-                print(f"{g} = {a}^{b} is a perfect power.")
+                print(f"{g} = {a}**{b} is a perfect power.")
     except Exception as e:
         print("\nSo long!")
 
