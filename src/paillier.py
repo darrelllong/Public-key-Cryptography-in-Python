@@ -47,7 +47,7 @@ def generate_keys(nBits, safe = False):
         p, q = f(lo, hi), f(lo, hi)
         n = p * q
         g = primes.gcd(n, (p - 1) * (q - 1))
-    𝝀 = primes.lcm(p - 1, q - 1)
+    𝝀 = primes.lcm(p - 1, q - 1) # Carmichael 𝝀 function
     𝜻 = uniform(2, n * n)
     u = primes.inverse(L(primes.power_mod(𝜻, 𝝀, n * n), n), n)
     return ((n, 𝝀, u), (n, 𝜻))
