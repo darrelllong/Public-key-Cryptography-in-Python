@@ -373,7 +373,7 @@ def main():
     g = encode("Try harder!")
     try:
         while g != 0:
-            g = int(input("?? "))
+            g = eval(input("?? "))
             mr   = is_prime_MR(g)
             ss   = is_prime_SS(g)
             bpsw = is_prime_BPSW(g)
