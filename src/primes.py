@@ -75,8 +75,8 @@ def power_mod(a, d, n):
     while d > 0:
         if is_odd(d): # 1 bit in the exponent
             v = (v * p) % n
-        p = p**2 % n # Next power of two
-        d //= 2      # Shuft exponent one bit
+        p = (p * p) % n # Next power of two
+        d //= 2         # Shift exponent one bit
     return v
 
 def perfect_power(n):
@@ -188,8 +188,8 @@ def choose_Selfridge(n):
 
 def halve(x, n):
     """
-    If x is even, x is halved directly. If x is odd, then n is added to x.  n is 
-    assumed to be odd since it is a candidate prime, so the result will be even 
+    If x is even, x is halved directly. If x is odd, then n is added to x.  n is
+    assumed to be odd since it is a candidate prime, so the result will be even
     and can be halved. This does not change the answer mod n.
     """
     if x % 2 == 1:
@@ -244,7 +244,7 @@ def is_prime_F(n):
 def is_prime_BPSW(n, k=100):
     """
     Runs a Fermat (Miller-Rabin with fixed base) test base 2 and a Lucas-Selfridge test.
-    It is conjectured that pseudoprimes under both tests are significantly different so 
+    It is conjectured that pseudoprimes under both tests are significantly different so
     if a number passes both it is very likely to be truly prime.
     """
     return is_prime_F(n) and is_prime_LS(n)
