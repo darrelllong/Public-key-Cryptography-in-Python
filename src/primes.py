@@ -364,15 +364,20 @@ def decode(n):
     return s
 
 # Interactive test
+import time
 
 def main():
     g = encode("Try harder!")
     try:
         while g != 0:
             g = eval(input("?? "))
+            t0 = time.time_ns()
             mr   = is_prime_MR(g)
+            t1 = time.time_ns()
             ss   = is_prime_SS(g)
+            t2 = time.time_ns()
             bpsw = is_prime_BPSW(g)
+            t3 = time.time_ns()
             if g == 2 or is_odd(g) and mr and ss and bpsw:
                 print(f"{g} is probably prime.")
             else:
@@ -386,6 +391,7 @@ def main():
             (a, b) = perfect_power(g)
             if (a, b) != (None, None):
                 print(f"{g} = {a}**{b} is a perfect power.")
+            print(f"Performance:\n\tMiller-Rabin: {t1 - t0}ns\n\tSolovay-Strassen: {t2 - t1}ns\n\tBPSW: {t3 - t2}ns")
     except Exception as e:
         print("\nSo long!")
 
