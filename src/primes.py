@@ -61,7 +61,7 @@ def power(a, d):
         d //= 2 # Shift exponent one bit
     return v
 
-def power_mod(a, d, n):
+def power_mod(a, b, n):
     """
      b
     a (mod n) using the method of repeated squares.
@@ -72,11 +72,11 @@ def power_mod(a, d, n):
     """
     v = 1 # Value
     p = a # Powers of a
-    while d > 0:
-        if is_odd(d): # 1 bit in the exponent
+    while b > 0:
+        if is_odd(b): # 1 bit in the exponent
             v = (v * p) % n
         p = (p * p) % n # Next power of two
-        d //= 2         # Shift exponent one bit
+        b //= 2         # Shift exponent one bit
     return v
 
 def perfect_power(n):
@@ -101,18 +101,25 @@ def perfect_power(n):
 
 def is_perfect_power(n): return perfect_power(n) != (None, None)
 
+def get_d_r(n):
+    """
+    Factors n into the form d * 2 ** r.
+    """
+    d = n
+    r = 0
+    while is_even(d):
+        d //= 2
+        r += 1
+
+    return (d, r)
+
 def witness(a, n):
     """
     The witness loop of the Miller-Rabin probabilistic primality test.
     """
-    # Factor n into u * 2**t + 1
-    u = n - 1
-    t = 0
-    while is_even(u):
-        t  += 1
-        u //= 2
-    x = power_mod(a, u, n)
-    for _ in range(0, t):
+    (d, r) = get_d_r(n - 1) # Factor n into d * 2**r + 1
+    x = power_mod(a, d, n)
+    for _ in range(0, r):
         y = power_mod(x, 2, n)
         if y == 1 and x != 1 and x != n - 1:
             return True
@@ -180,7 +187,7 @@ def choose_Selfridge(n):
     s = 1
     while True:
         D = d * s
-        if Jacobi(D, n) == -1: # This is guaranteed to occur if it is not square.
+        if gcd(D,n) == 1 and Jacobi(D, n) == -1: # This is guaranteed to occur if it is not square.
             return (D, 1, (1 - D) // 4)
 
         d = d + 2
@@ -194,9 +201,9 @@ def halve(x, n):
     """
     if x % 2 == 1:
         x += n
-    return x / 2
+    return x // 2
 
-def compute_U(i, n, p, d):
+def compute_UV(i, n, p, d):
     """
     Computes the i-th element of the Lucas sequence with parameters
     p and d, where q = (1 - d) / 4 (mod n).
@@ -204,19 +211,19 @@ def compute_U(i, n, p, d):
     if i == 1:
         return (1, p)
     elif i % 2 == 0:
-        (U_k, V_k) = compute_U(i // 2, n, p, d)
+        (U_k, V_k) = compute_UV(i // 2, n, p, d)
         U_2k = U_k * V_k
         V_2k = halve(V_k * V_k + d * U_k * U_k, n)
         return (U_2k % n, V_2k % n)
     else:
-        (U_2k, V_2k) = compute_U(i - 1, n, p, d)
+        (U_2k, V_2k) = compute_UV(i - 1, n, p, d)
         U_2k1 = halve(p * U_2k + V_2k, n)
         V_2k1 = halve(d * U_2k + p * V_2k, n)
         return (U_2k1 % n, V_2k1 % n)
 
 def is_prime_LS(n):
     """
-    Checks if an integer is a standard Lucas probable prime.
+    Checks if an integer is a strong Lucas probable prime.
     """
     if n < 2 or (n != 2 and n % 2 == 0) or is_perfect_power(n):
         return False
@@ -224,13 +231,13 @@ def is_prime_LS(n):
         return True
 
     (d, p, q) = choose_Selfridge(n)
-    (u, _) = compute_U(n + 1, n, p, d)
+    (u, v) = compute_UV(n + 1, n, p, d)
 
-    return u == 0
+    return  u == 0 and v == (2 * q) % n
 
 def is_prime_F(n):
     """
-    Fermat (Miller-Rabin with fixed base) test base a = 2.
+    Strong Fermat (Miller-Rabin with fixed base) test with base a = 2.
     """
     if n < 2 or (n != 2 and n % 2 == 0):
         return False
