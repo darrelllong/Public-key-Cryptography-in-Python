@@ -293,14 +293,14 @@ def extended_GCD(a, b):
 
     Returns (remainder, (s, t))
     """
-    (r, rP) = (a, b)
-    (s, sP) = (1, 0)
-    (t, tP) = (0, 1)
+    r, rP = a, b
+    s, sP = 1, 0
+    t, tP = 0, 1
     while rP != 0:
         q = r // rP
-        (r, rP) = (rP, r - q * rP)
-        (s, sP) = (sP, s - q * sP)
-        (t, tP) = (tP, t - q * tP)
+        r, rP = rP, r - q * rP
+        s, sP = sP, s - q * sP
+        t, tP = tP, t - q * tP
     return (r, (s, t))
 
 def gcd(a, b):
