@@ -42,7 +42,7 @@ def generate_keys(nBits, safe=True):
     f = primes.safe_prime if safe else primes.random_prime
     p = f(low, high)
     q = f(low, high)
-    while p == q or p % (q - 1) == 0 or q % (p - 1) == 0:
+    while p == q or (q - 1) % p == 0 or (p - 1) % q == 0:
         q = f(low, high)
     𝛄 = p * q
     𝝺 = primes.lcm(p - 1, q - 1) # Carmichael 𝝺(n) = lcm(𝝺(p), 𝝺(q)) = lcm(p - 1, q - 1)
