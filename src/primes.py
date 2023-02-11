@@ -45,7 +45,7 @@ def lg(n):
 
 def power(a, d):
     """
-     b
+     d
     a  using the method of repeated squares.
 
     Every integer can be written as a sum of powers of 2 including the exponent. By repeated
