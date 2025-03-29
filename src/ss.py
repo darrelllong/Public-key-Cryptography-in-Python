@@ -35,6 +35,15 @@ def generate_keys(nBits, safe=True):
     """
     Generate and return a key with n_bits of strength.
     Default is to use safe random numbers.
+    1. Generate two large primes p and q (secure primes, typically)
+                            2
+    2. Compute modulus n = p  * q
+    3. Compute Carmichael 𝝺(n) = lcm(𝝺(p), 𝝺(q)) = lcm(p - 1, q - 1)
+    4. Choose public exponent e such that gcd(e, 𝝺(n)) = 1
+                                         -1
+    5. Compute the private exponent d = e mod 𝝺(n)
+    Public key: (n, e)
+    Private key: d
     """
     size = nBits // 2
     low  = 2**(size - 1) # Assure the primes are each approximately half of the
@@ -52,13 +61,15 @@ def generate_keys(nBits, safe=True):
 
 def encrypt(m, n):
     """
-    Write about the algorithm
+    To encrypt a plaintext message m (0 <= m < N):
+    Compute ciphertext c as follows:
     """
     return primes.power_mod(m, n, n)
 
 def decrypt(c, key):
     """
-    Write about the algorithm
+    Given ciphertext c, recover plaintext m using private key d:
+    Compute plaintext m as follows:
     """
     d, 𝛄 = key
     return primes.power_mod(c, d, 𝛄)
