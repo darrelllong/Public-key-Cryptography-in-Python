@@ -30,7 +30,6 @@
 import primes
 
 from random import randrange as uniform
-from zlib   import crc32
 
 def generate_keys(nBits, safe=True):
     """

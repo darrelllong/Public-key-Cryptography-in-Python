@@ -38,16 +38,23 @@ def f(x, b, n): return (b + x + x*x) % n
 
 def rho(n):
     """
-    Compute Pollard's ⍴
+    Compute Pollard's rho to find a nontrivial factor of n.
+    Reinitialize parameters and retry if the computed factor equals n.
     """
-    b = uniform(1, max(2, n - 2))
-    s = uniform(0, max(2, n))
-    A, B, g = s, s, 1
-    while g == 1:
-        A = f(A, b, n)
-        B = f(f(B, b, n), b, n)
-        g = gcd(A - B, n)
-    return g
+    factor = n  # Initialize with the trivial factor
+    while factor == n:
+        b = uniform(1, max(2, n - 2))
+        s = uniform(0, max(2, n))
+        slow = s  # Tortoise
+        fast = s  # Hare
+        factor = 1  # Reset factor for this trial
+
+        while factor == 1:
+            slow = f(slow, b, n)
+            fast = f(f(fast, b, n), b, n)
+            factor = gcd(slow - fast, n)
+
+    return factor
 
 def factor(n):
     if n == 1 or is_prime(n):
@@ -75,7 +82,7 @@ def main():
     n = 1
     try:
         while n != 0:
-            n = eval(input("?? "))
+            n = int(input("?? "))
             f = factor(n)
             f.sort()
             print(f"{n} = {f} = {reduce(lambda x, y: x * y, f)}")

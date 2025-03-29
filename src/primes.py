@@ -85,7 +85,7 @@ def perfect_power(n):
     Determine whether n = a using binary search, should require O(lg n (lg lg n) ) time.
     """
     logN = lg(n)
-    for b in range(2, logN):
+    for b in range(2, logN + 1):
         low  = 2
         high = 1 << logN // b + 1
         while low < high - 1:
@@ -316,13 +316,18 @@ def gcd(a, b):
     """
     while b != 0:
         a, b = b, a % b # The simple version so students see what is happening.
-    return a
+    return abs(a)
 
 def lcm(a, b):
     """
     Compute the least common multiple lcm(a, b).
+
+    Raises:
+        ValueError: if either a or b is 0, as lcm is undefined for 0.
     """
-    return (a * b) // gcd(a, b)
+    if a == 0 or b == 0:
+        raise ValueError("lcm is not defined for 0")
+    return abs(a * b) // gcd(a, b)
 
 def inverse(a, n):
     """
@@ -344,24 +349,24 @@ def group_generator(n, p):
     """
     g = n
     q = (p - 1) // 2
-    while power_mod(g, 2, p) == 1 and power_mod(g, q, p) == 1:
+    while power_mod(g, 2, p) == 1 or power_mod(g, q, p) == 1:
         g = g + 1
     return g
 
 def encode(s):
-    sum = 0
-    pow = 1
+    tot = 0
+    mlt = 1
     for c in s:
-        sum += pow * ord(c)
-        pow *= 256
-    return sum
+        tot += mlt * ord(c)
+        mlt *= 256
+    return tot
 
 def decode(n):
-    s = ""
+    chars = []
     while n > 0:
-        s += chr(n % 256)
+        chars.append(chr(n % 256))
         n //= 256
-    return s
+    return ''.join(chars)
 
 # Interactive test
 import time
@@ -370,7 +375,7 @@ def main():
     g = encode("Try harder!")
     try:
         while g != 0:
-            g = eval(input("?? "))
+            g = int(input("?? "))
             t0 = time.time_ns()
             mr   = is_prime_MR(g)
             t1 = time.time_ns()

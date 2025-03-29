@@ -70,7 +70,7 @@ def decrypt(m, key):
     for d in msgs:
         if d % 2**32 == _h:
             return d // 2**32
-    return 1279869254 # FAIL
+    raise ValueError("Decryption failed: no valid square root with matching CRC tag found.")
 
 import sys, getopt
 
