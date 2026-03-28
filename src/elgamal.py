@@ -31,18 +31,23 @@ import primes
 
 from random import randrange as uniform
 
-# Generate an efficient description of a cyclic group G of order p, with generator r.
-#
-# Choose a random integer a ∊ {(p – 1)/2, ..., p − 1}
-#
-#              a
-# Compute b = r
-#
-# The public key consists of the values (p, r, b)
-#
-# The private key consists of the values (p, a)
-
 def generate_keys(k, safe=True):
+    """
+    Generate an ElGamal key pair whose prime modulus p has k bits of strength.
+
+    Security rests on the discrete logarithm problem: given p, r, and b = rᵃ mod p,
+    it is computationally infeasible to recover the secret exponent a.  The scheme is
+    probabilistic — each encryption draws a fresh random session key, so the same
+    plaintext produces a different ciphertext every time.
+
+    The generator r is bounded below by 2¹⁶ + 1 to avoid degenerate small generators
+    that expose group structure.  The secret exponent a is drawn from the upper half
+    of [0, p-1] so it is large enough to resist baby-step / giant-step attacks sized
+    for small exponents.
+
+    Public key:  (p, r, b)  where b = rᵃ mod p
+    Private key: (p, a)
+    """
     low  = 2**(k - 1)
     high = 2**k - 1
     f = primes.safe_prime if safe else primes.random_prime
@@ -53,6 +58,14 @@ def generate_keys(k, safe=True):
     return ((p, a), (p, r, b))
 
 def encrypt(m, key):
+    """
+    Encrypt m by masking it with b^k, then publishing the hint γ = r^k.
+
+    The session key k is chosen freshly at random so the ciphertext (γ, δ) is
+    computationally indistinguishable from a random pair in Z_p × Z_p to anyone
+    who does not know a.  The mask b^k = r^(ak) is only recoverable from γ by
+    someone who knows a, because computing a from b = r^a is the discrete-log problem.
+    """
     p, r, b = key
     k = uniform(1, p - 2)
     𝛾 = primes.power_mod(r, k, p)
@@ -60,9 +73,50 @@ def encrypt(m, key):
     return (𝛾, 𝛿)
 
 def decrypt(m, key):
+    """
+    Decrypt by stripping the mask: δ · γ^(p−1−a) ≡ m (mod p).
+
+    Fermat's little theorem gives γ^(p−1) ≡ 1 (mod p), so
+        γ^(p−1−a) = γ^(−a) mod p = r^(−ak) mod p.
+    Multiplying δ = m · r^(ak) by this inverse cancels the mask and recovers m.
+    """
     p, a = key
     𝛾, 𝛿 = m
     return (primes.power_mod(𝛾, p - 1 - a, p) * 𝛿) % p
+
+import crypto_io as _io
+
+# ── Serialization ─────────────────────────────────────────────────────────────
+# Public key layout:  [p, exponent_bound, generator, public_component] = [p, p-1, g, b]
+# Private key layout: [p, exponent_modulus, a] = [p, p-1, a]
+
+def elgamal_public_to_blob(p, g, b):      return _io.encode_big_ints([p, p - 1, g, b])
+def elgamal_public_from_blob(blob):
+    r = _io.decode_big_ints(blob)
+    return (r[0], r[2], r[3]) if r and len(r) == 4 else None  # (p, g, b)
+def elgamal_public_to_pem(p, g, b):       return _io.pem_wrap("CRYPTOGRAPHY ELGAMAL PUBLIC KEY", elgamal_public_to_blob(p, g, b))
+def elgamal_public_from_pem(pem):
+    b2 = _io.pem_unwrap("CRYPTOGRAPHY ELGAMAL PUBLIC KEY", pem)
+    return None if b2 is None else elgamal_public_from_blob(b2)
+def elgamal_public_to_xml(p, g, b):
+    return _io.xml_wrap("ElGamalPublicKey", [("p", p), ("exponent-bound", p - 1), ("generator", g), ("public-component", b)])
+def elgamal_public_from_xml(xml):
+    r = _io.xml_unwrap("ElGamalPublicKey", ["p", "exponent-bound", "generator", "public-component"], xml)
+    return (r[0], r[2], r[3]) if r and len(r) == 4 else None  # (p, g, b)
+
+def elgamal_private_to_blob(p, a):        return _io.encode_big_ints([p, p - 1, a])
+def elgamal_private_from_blob(blob):
+    r = _io.decode_big_ints(blob)
+    return (r[0], r[2]) if r and len(r) == 3 else None  # (p, a)
+def elgamal_private_to_pem(p, a):         return _io.pem_wrap("CRYPTOGRAPHY ELGAMAL PRIVATE KEY", elgamal_private_to_blob(p, a))
+def elgamal_private_from_pem(pem):
+    b = _io.pem_unwrap("CRYPTOGRAPHY ELGAMAL PRIVATE KEY", pem)
+    return None if b is None else elgamal_private_from_blob(b)
+def elgamal_private_to_xml(p, a):
+    return _io.xml_wrap("ElGamalPrivateKey", [("p", p), ("exponent-modulus", p - 1), ("a", a)])
+def elgamal_private_from_xml(xml):
+    r = _io.xml_unwrap("ElGamalPrivateKey", ["p", "exponent-modulus", "a"], xml)
+    return (r[0], r[2]) if r and len(r) == 3 else None  # (p, a)
 
 import sys, getopt
 

@@ -262,4 +262,3 @@ This implementation provides these utilities (these provide the same functionali
 * `rho(n)`
 * `factor(n)` &mdash; using Pollard's &#961; function
 
-![Cutting the Stone](https://darrelllong.github.io/images/Cutting_the_Stone_(Bosch).jpg)

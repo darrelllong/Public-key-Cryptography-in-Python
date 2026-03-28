@@ -34,7 +34,12 @@ from zlib   import crc32
 
 def generate_keys(n_bits, safe=True):
     """
-    Generate and return a key with n_bits of strength.  Default is to use safe primes.
+    Generate a Rabin key pair whose modulus n = p*q has n_bits of strength.
+
+    Primes are grown by 16 bits each (x = n_bits//2 + 16) to make room for the
+    32-bit disambiguation tag that is prepended to the plaintext before squaring.
+    Without the extra headroom the tagged payload could overflow n, making
+    decryption ambiguous.
     """
     x = n_bits // 2 + 32 // 2 # Make room for the tag (two pieces of 16 bits)
     p = primes.rabin_prime(2**x, 2**(x + 1) - 1, safe)
@@ -43,22 +48,32 @@ def generate_keys(n_bits, safe=True):
         q = primes.rabin_prime(2**(x - 1), 2**x - 1, safe)
     return (p * q, (p, q))
 
+# Arbitrary 32-bit disambiguation tag — same constant used by the Rust crate.
+# It is not a cryptographic checksum; its only job is to let the decryptor pick
+# the right one of the four square roots that squaring mod n can produce.
 _h = crc32(b"Michael O. Rabin")
 
 def encrypt(m, n):
     """
-    Rabin encryption is squaring the message. We need to make sure that the square exceeds
-    n before the modulus, otherwise it is trivial to decode by detecting a perfect power (2
-    in this case. We do this by adding n // 2 before squaring.
+    Encrypt by squaring the tagged payload mod n.
 
-    We descriminate among the four possible square roots by adding a 32-bit CRC tag.
+    The message is shifted left by 32 bits and the tag _h is inserted in the low
+    word, then n//2 is added so the payload is large enough that its square
+    cannot be trivially detected as a perfect power without knowing the factors.
+    Encryption is simply squaring: c = payload² mod n.
     """
     return primes.power_mod(m * 2**32 + _h + n // 2, 2, n) # Insert tag and square (mod n)
 
-# Decryption requires us to compute the four square roots (mod n). We can only efficiently
-# do this if we know p and q.
-
 def decrypt(m, key):
+    """
+    Recover the plaintext by finding the unique square root that carries the tag.
+
+    Squaring mod n = p*q has four square roots.  We compute all four via the
+    Chinese Remainder Theorem — each factor p and q independently admits two
+    square roots (±√m mod p and ±√m mod q), which CRT combines into four roots
+    mod n.  Only the root whose low 32 bits equal _h is the true payload; the
+    other three are discarded.  The original message is the payload >> 32.
+    """
     (p, q) = key
     n = p * q
     (g, (yP, yQ)) = primes.extended_GCD(p, q)
@@ -71,6 +86,36 @@ def decrypt(m, key):
         if d % 2**32 == _h:
             return d // 2**32
     raise ValueError("Decryption failed: no valid square root with matching CRC tag found.")
+
+import crypto_io as _io
+
+# ── Serialization ─────────────────────────────────────────────────────────────
+
+def rabin_public_to_blob(n):          return _io.encode_big_ints([n])
+def rabin_public_from_blob(blob):
+    r = _io.decode_big_ints(blob)
+    return r[0] if r and len(r) == 1 else None
+def rabin_public_to_pem(n):           return _io.pem_wrap("CRYPTOGRAPHY RABIN PUBLIC KEY", rabin_public_to_blob(n))
+def rabin_public_from_pem(pem):
+    b = _io.pem_unwrap("CRYPTOGRAPHY RABIN PUBLIC KEY", pem)
+    return None if b is None else rabin_public_from_blob(b)
+def rabin_public_to_xml(n):           return _io.xml_wrap("RabinPublicKey", [("n", n)])
+def rabin_public_from_xml(xml):
+    r = _io.xml_unwrap("RabinPublicKey", ["n"], xml)
+    return r[0] if r and len(r) == 1 else None
+
+def rabin_private_to_blob(n, p, q):   return _io.encode_big_ints([n, p, q])
+def rabin_private_from_blob(blob):
+    r = _io.decode_big_ints(blob)
+    return (r[1], r[2]) if r and len(r) == 3 else None  # return (p, q)
+def rabin_private_to_pem(n, p, q):    return _io.pem_wrap("CRYPTOGRAPHY RABIN PRIVATE KEY", rabin_private_to_blob(n, p, q))
+def rabin_private_from_pem(pem):
+    b = _io.pem_unwrap("CRYPTOGRAPHY RABIN PRIVATE KEY", pem)
+    return None if b is None else rabin_private_from_blob(b)
+def rabin_private_to_xml(n, p, q):    return _io.xml_wrap("RabinPrivateKey", [("n", n), ("p", p), ("q", q)])
+def rabin_private_from_xml(xml):
+    r = _io.xml_unwrap("RabinPrivateKey", ["n", "p", "q"], xml)
+    return (r[1], r[2]) if r and len(r) == 3 else None  # return (p, q)
 
 import sys, getopt
 

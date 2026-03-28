@@ -126,6 +126,140 @@ def publicKeyFromStr(key):
 
     return (e, n)
 
+import crypto_io as _io
+
+# ── Extended key generation (returns p and q for PKCS#1 CRT fields) ───────────
+
+def generate_rsa_full_keys(nBits, safe=True):
+    """Like generate_keys but also returns the primes p and q."""
+    size = nBits // 2
+    low  = 2**(size - 1)
+    high = 2**size - 1
+    f = primes.safe_prime if safe else primes.random_prime
+    p = f(low, high)
+    q = f(low, high)
+    while p == q:
+        q = f(low, high)
+    𝝺 = primes.lcm(p - 1, q - 1)
+    k = 16
+    e = 2**k + 1
+    while primes.gcd(e, 𝝺) != 1:
+        k += 1
+        e = 2**k + 1
+    d = primes.inverse(e, 𝝺)
+    n = p * q
+    return (e, d, n, p, q)
+
+# ── RSA PKCS#1 / SPKI / PKCS#8 serialization ─────────────────────────────────
+
+def rsa_public_to_pkcs1_der(e, n):
+    body = _io._der_integer(n) + _io._der_integer(e)
+    return _io._der_sequence(body)
+
+def rsa_public_from_pkcs1_der(der):
+    outer = _io._DerReader(der)
+    seq = outer.read_tlv(0x30)
+    if seq is None or not outer.done():
+        return None
+    r = _io._DerReader(seq)
+    n = r.read_bigint()
+    e = r.read_bigint()
+    if n is None or e is None or not r.done() or e <= 1:
+        return None
+    return (e, n)
+
+def rsa_public_to_spki_der(e, n):
+    pkcs1 = rsa_public_to_pkcs1_der(e, n)
+    alg   = _io._der_oid(_io._RSA_OID) + _io._der_null()
+    body  = _io._der_sequence(alg) + _io._der_bit_string(pkcs1)
+    return _io._der_sequence(body)
+
+def rsa_public_from_spki_der(der):
+    outer = _io._DerReader(der)
+    seq = outer.read_tlv(0x30)
+    if seq is None or not outer.done():
+        return None
+    r = _io._DerReader(seq)
+    alg_seq = r.read_tlv(0x30)
+    bs      = r.read_tlv(0x03)
+    if alg_seq is None or bs is None or not r.done():
+        return None
+    if not bs or bs[0] != 0x00:
+        return None
+    alg_r = _io._DerReader(alg_seq)
+    oid   = alg_r.read_tlv(0x06)
+    alg_r.read_tlv(0x05)
+    if oid is None or not alg_r.done() or oid != _io._RSA_OID:
+        return None
+    return rsa_public_from_pkcs1_der(bs[1:])
+
+def rsa_private_to_pkcs1_der(e, d, n, p, q):
+    d_p   = d % (p - 1)
+    d_q   = d % (q - 1)
+    q_inv = primes.inverse(q, p)
+    body  = (_io._der_integer_u8(0) + _io._der_integer(n) + _io._der_integer(e) +
+             _io._der_integer(d)    + _io._der_integer(p) + _io._der_integer(q) +
+             _io._der_integer(d_p)  + _io._der_integer(d_q) + _io._der_integer(q_inv))
+    return _io._der_sequence(body)
+
+def rsa_private_from_pkcs1_der(der):
+    outer = _io._DerReader(der)
+    seq = outer.read_tlv(0x30)
+    if seq is None or not outer.done():
+        return None
+    r = _io._DerReader(seq)
+    ver = r.read_small_uint()
+    if ver is None or ver != 0:
+        return None
+    n = r.read_bigint(); e = r.read_bigint(); d = r.read_bigint()
+    p = r.read_bigint(); q = r.read_bigint()
+    r.read_bigint(); r.read_bigint(); r.read_bigint()  # consume CRT fields
+    if any(v is None for v in [n, e, d, p, q]) or not r.done():
+        return None
+    return (e, d, n, p, q)
+
+def rsa_private_to_pkcs8_der(e, d, n, p, q):
+    pkcs1 = rsa_private_to_pkcs1_der(e, d, n, p, q)
+    alg   = _io._der_oid(_io._RSA_OID) + _io._der_null()
+    body  = _io._der_integer_u8(0) + _io._der_sequence(alg) + _io._der_octet_string(pkcs1)
+    return _io._der_sequence(body)
+
+def rsa_private_from_pkcs8_der(der):
+    outer = _io._DerReader(der)
+    seq = outer.read_tlv(0x30)
+    if seq is None or not outer.done():
+        return None
+    r = _io._DerReader(seq)
+    ver     = r.read_small_uint()
+    alg_seq = r.read_tlv(0x30)
+    inner   = r.read_tlv(0x04)
+    if ver is None or ver != 0 or alg_seq is None or inner is None or not r.done():
+        return None
+    alg_r = _io._DerReader(alg_seq)
+    oid   = alg_r.read_tlv(0x06)
+    alg_r.read_tlv(0x05)
+    if oid is None or not alg_r.done() or oid != _io._RSA_OID:
+        return None
+    return rsa_private_from_pkcs1_der(inner)
+
+def rsa_public_to_pkcs1_pem(e, n):       return _io.pem_wrap("RSA PUBLIC KEY",  rsa_public_to_pkcs1_der(e, n))
+def rsa_public_from_pkcs1_pem(pem):      b = _io.pem_unwrap("RSA PUBLIC KEY",  pem); return None if b is None else rsa_public_from_pkcs1_der(b)
+def rsa_public_to_spki_pem(e, n):        return _io.pem_wrap("PUBLIC KEY",       rsa_public_to_spki_der(e, n))
+def rsa_public_from_spki_pem(pem):       b = _io.pem_unwrap("PUBLIC KEY",       pem); return None if b is None else rsa_public_from_spki_der(b)
+def rsa_private_to_pkcs1_pem(e,d,n,p,q): return _io.pem_wrap("RSA PRIVATE KEY", rsa_private_to_pkcs1_der(e,d,n,p,q))
+def rsa_private_from_pkcs1_pem(pem):     b = _io.pem_unwrap("RSA PRIVATE KEY", pem); return None if b is None else rsa_private_from_pkcs1_der(b)
+def rsa_private_to_pkcs8_pem(e,d,n,p,q): return _io.pem_wrap("PRIVATE KEY",     rsa_private_to_pkcs8_der(e,d,n,p,q))
+def rsa_private_from_pkcs8_pem(pem):     b = _io.pem_unwrap("PRIVATE KEY",     pem); return None if b is None else rsa_private_from_pkcs8_der(b)
+
+def rsa_public_to_xml(e, n):             return _io.xml_wrap("RsaPublicKey",  [("e", e), ("n", n)])
+def rsa_public_from_xml(xml):
+    r = _io.xml_unwrap("RsaPublicKey", ["e", "n"], xml)
+    return (r[0], r[1]) if r and len(r) == 2 else None
+def rsa_private_to_xml(e, d, n, p, q):  return _io.xml_wrap("RsaPrivateKey", [("e", e), ("d", d), ("n", n), ("p", p), ("q", q)])
+def rsa_private_from_xml(xml):
+    r = _io.xml_unwrap("RsaPrivateKey", ["e", "d", "n", "p", "q"], xml)
+    return (r[0], r[1], r[2], r[3], r[4]) if r and len(r) == 5 else None
+
 import getopt, sys
 
 def main():
