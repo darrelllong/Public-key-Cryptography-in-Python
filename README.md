@@ -262,3 +262,7 @@ This implementation provides these utilities (these provide the same functionali
 * `rho(n)`
 * `factor(n)` &mdash; using Pollard's &#961; function
 
+
+<p align="center">
+  <img src="assets/ship_of_fools.png" width="50%" alt="Ship of Fools">
+</p>
