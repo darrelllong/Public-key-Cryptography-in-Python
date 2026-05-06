@@ -61,24 +61,34 @@ is much slower and would dominate the wall.
    keygen at 2048 bits has a heavy-tailed distribution dominated by
    prime-search variance.
 
-## TL;DR
+## Summary of results
 
-- **Julia is faster than Python at 1024 and 2048-bit moduli** across nearly
-  every operation — the regime that matters for actual cryptography.
-  Of 15 cells with both sides converging at CI ≤ 25%, Julia wins
-  13.
-- **Julia is ~20% slower at 512-bit keygen** for most schemes (allocation
-  and GC overhead dominates short BigInt arithmetic; CPython's tuned
-  small-int code keeps up). ElGamal-512 keygen is the exception: Julia
-  is 2.2× faster because its dominant cost is generator search, which
-  is arithmetic-heavy.
-- **The biggest wins are at 2048 bits:** Julia ElGamal keygen 8.5×,
-  Paillier encrypt 8.0×, Paillier decrypt 8.2×.
-- **Several decrypt cells at 512 and 1024 bits show wide CIs** — RSA-512
-  decrypt, ElGamal-1024 decrypt, Rabin-1024 decrypt, all the
-  Schmidt-Samoa decrypts, and most Cocks decrypts. Their pilot means are
-  reported but should be read with the noted CIs. The chart annotations
-  flag these directly.
+At modulus sizes of 1024 bits and above — the regime that matters for
+practical cryptography — Julia is consistently faster than Python on
+nearly every operation. Of the 15 cells in which both implementations
+converged at a confidence interval at or below 25 %, Julia is the faster
+language in 13. The largest separations occur at 2048 bits:
+ElGamal key generation runs 8.5× faster in Julia, Paillier encryption
+8.0× faster, and Paillier decryption 8.2× faster.
+
+At 512-bit key generation Julia is approximately 20 % slower than Python
+for most schemes. The cause is arithmetic granularity: at 256-bit primes
+each modular multiplication is cheap enough that BigInt allocation and
+garbage-collection overhead dominate the per-operation cost, and
+CPython's specialised small-integer path remains competitive. ElGamal-512
+key generation is the exception: its dominant cost is generator search
+rather than prime construction, which keeps Julia ahead even at small
+moduli.
+
+Several decryption cells at 512 and 1024 bits — including RSA-512,
+ElGamal-1024, Rabin-1024, every Schmidt-Samoa decryption, and most Cocks
+decryptions — show confidence intervals exceeding 100 %. These cells
+illustrate the well-known difficulty of timing sub-millisecond operations
+on a managed runtime: an occasional GC pause that is invisible against a
+multi-second key generation thoroughly distorts the round mean of a
+200-microsecond decryption. The means in those cells are reported with
+their uncertainty so that no false claim of advantage rests on
+noise-dominated samples.
 
 ## Charts
 
