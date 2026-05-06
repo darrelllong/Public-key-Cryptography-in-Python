@@ -32,6 +32,8 @@ is much slower and would dominate the wall.
 - **Per-round iterations (K):** sized so each driver invocation amortises
   process startup; pilot decides round count. K ranges from 5 (slow keygen
   at 2048 bits) to 500 (fast encrypt/decrypt at 512 bits).
+- **Confidence level:** 0.95 (pilot's default; not overridden). All ±N%
+  intervals quoted in the tables and chart annotations are 95 % CIs.
 - **Hardware:** Apple Silicon, macOS 25.4.0. Python 3 from Homebrew; Julia 1.12.6.
 
 ### Known asymmetries to read with care
