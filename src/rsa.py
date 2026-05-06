@@ -85,16 +85,24 @@ def byteLength(n: int) -> int:
 #     n bytes -- the contents of the field.
 
 def publicKeyToStr(e, n):
+    # Each integer is encoded as an SSH "mpint" (RFC 4251 §5): a 32-bit big-endian
+    # length followed by the minimal big-endian byte representation of the value,
+    # with a leading 0x00 byte prepended whenever the high bit of the first byte
+    # would otherwise be set (so the value reads as positive). Without that pad
+    # byte, ssh-keygen rejects the key — and so does GitHub.
+    def mpint(x):
+        b = x.to_bytes(byteLength(x), "big")
+        if b and b[0] & 0x80:
+            b = b"\x00" + b
+        return len(b).to_bytes(4, "big") + b
+
     key_type = b"ssh-rsa"
     key = bytearray()
-
     key.extend(len(key_type).to_bytes(4, "big") + key_type)
-    key.extend(byteLength(e).to_bytes(4, "big") + e.to_bytes(byteLength(e), "big"))
-    key.extend(byteLength(n).to_bytes(4, "big") + n.to_bytes(byteLength(n), "big"))
+    key.extend(mpint(e))
+    key.extend(mpint(n))
 
-    key_b64 = b64encode(key).decode("utf-8")
-
-    return "ssh-rsa " + key_b64
+    return "ssh-rsa " + b64encode(key).decode("utf-8")
 
 # Retrieve (e, n) from a public ssh key string.
 
