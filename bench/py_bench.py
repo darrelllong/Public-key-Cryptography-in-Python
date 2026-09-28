@@ -16,7 +16,15 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 import primes, rsa, elgamal, rabin, paillier, ss, cocks
 import random
-random.seed(20260506)
+
+# Encryption and decryption use one key per invocation, drawn from a fixed
+# seed, so that every invocation measures the same key.  Key generation is
+# seeded from the operating system: with a fixed seed every invocation would
+# generate the same keys, and the readings would repeat with period K.
+if len(sys.argv) > 2 and sys.argv[2] == "keygen":
+    random.seed()
+else:
+    random.seed(20260506)
 
 ALGOS = {
     "rsa": {

@@ -3,9 +3,10 @@
 Radar charts driven by $BENCH_OUT/results.csv (pilot run_program means).
 
 One chart per (operation, bits) combination. Spokes are algorithms; one polygon
-per language. Annotations show pilot's mean with a `±X%` CI tag when the CI
-exceeds 25% — that flags cells where the sample distribution is noisy enough
-(typically Julia GC pauses) that the mean should not be over-interpreted.
+per language. Annotations show pilot's mean. Where the Pilot session reached its
+time limit before its CI was narrow enough, the annotation adds the 90% CI
+half-width as `±X%` of the mean, or `no CI` when there were too few readings
+for Pilot to compute one.
 """
 import csv, math, os
 from collections import defaultdict
@@ -33,10 +34,11 @@ def load():
     by_cell = defaultdict(lambda: defaultdict(dict))
     with open(RESULTS) as f:
         for r in csv.DictReader(f):
-            try: mean = float(r["mean_us"]); ci_p = float(r["ci_perc"])
-            except: mean, ci_p = float("nan"), float("nan")
+            try: mean = float(r["mean_us"]); ci_p = float(r["ci90_half_perc"])
+            except ValueError: mean, ci_p = float("nan"), float("nan")
+            conv = r["converged"] == "1"
             cell = (r["operation"], int(r["bits"]))
-            by_cell[cell][r["lang"]][r["algorithm"]] = (mean, ci_p)
+            by_cell[cell][r["lang"]][r["algorithm"]] = (mean, ci_p, conv)
     return by_cell
 
 def fmt_us(v):
@@ -48,11 +50,11 @@ def fmt_us(v):
 def plot_one(op, bits, by_cell):
     cell = by_cell.get((op, bits))
     if not cell: return None
-    series = {lang: [cell.get(lang, {}).get(a, (float("nan"), float("nan"))) for a in ALGOS]
+    series = {lang: [cell.get(lang, {}).get(a, (float("nan"), float("nan"), False)) for a in ALGOS]
               for lang in LANG_STYLE.keys()}
 
     def to_log(xs): return [math.log10(m) if (m and m == m and m > 0) else float("nan")
-                            for (m, _) in xs]
+                            for (m, _, _) in xs]
     log_series = {l: to_log(v) for l, v in series.items()}
 
     all_vals = [v for vs in log_series.values() for v in vs if not math.isnan(v)]
@@ -84,16 +86,18 @@ def plot_one(op, bits, by_cell):
         ax.plot(angles, plot_vals, color=style["color"], marker=style["marker"],
                 markersize=7, linewidth=2, label=style["label"])
         ax.fill(angles, plot_vals, color=style["color"], alpha=0.13)
-        for ang, v_log, (mean, ci_p) in zip(angles[:-1], log_vals, series[lang]):
+        for ang, v_log, (mean, ci_p, conv) in zip(angles[:-1], log_vals, series[lang]):
             if math.isnan(v_log): continue
             tag = fmt_us(mean)
-            if ci_p == ci_p and ci_p > 25: tag += f"\n±{ci_p:.0f}%"
+            if not conv:
+                tag += f"\n±{ci_p:.0f}%" if ci_p == ci_p else "\nno CI"
             ax.annotate(tag, (ang, v_log),
                         xytext=(0, -15 if lang == "python" else 11), textcoords="offset points",
                         ha="center", fontsize=8, color=style["color"])
 
     ax.set_title(f"{op.title()} — {bits}-bit modulus\n"
-                 f"(pilot run_program mean; lower is faster; log scale; ±N% = wide CI)",
+                 f"(pilot run_program mean; lower is faster; log scale;\n"
+                 f"±N% = 90% CI of a session that did not converge)",
                  pad=20, fontsize=12)
     ax.legend(loc="upper right", bbox_to_anchor=(1.22, 1.10), fontsize=10)
 
